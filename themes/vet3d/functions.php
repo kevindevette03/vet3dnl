@@ -1,6 +1,11 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+// Het thema moet ook werken (zonder shop) zolang WooCommerce niet actief is.
+function vet3d_wc_active() {
+    return class_exists( 'WooCommerce' );
+}
+
 add_action( 'after_setup_theme', function () {
     add_theme_support( 'wp-block-styles' );
     add_theme_support( 'responsive-embeds' );
@@ -29,12 +34,12 @@ add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'vet3d-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
     
     // JavaScript voor product gallery slider en sticky cart
-    if ( is_product() ) {
+    if ( vet3d_wc_active() && is_product() ) {
         wp_enqueue_script( 'vet3d-product', get_template_directory_uri() . '/assets/js/product.js', array('jquery'), wp_get_theme()->get( 'Version' ), true );
     }
     
     // 3D Viewer op shop/archive pagina's
-    if ( is_shop() || is_product_category() || is_product_tag() || is_archive() ) {
+    if ( is_archive() || ( vet3d_wc_active() && is_shop() ) ) {
         wp_enqueue_script( 'vet3d-3d-viewer', get_template_directory_uri() . '/assets/js/3d-viewer.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
     
@@ -59,7 +64,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle ) {
 
 // Voeg import map toe voor Three.js modules
 add_action( 'wp_head', function() {
-    if ( is_front_page() || is_page_template( 'page-lookbook.html' ) || is_shop() || is_product_category() || is_product_tag() || is_archive() ) {
+    if ( is_front_page() || is_page_template( 'page-lookbook.html' ) || is_archive() || ( vet3d_wc_active() && is_shop() ) ) {
         ?>
         <script type="importmap">
         {
@@ -159,7 +164,7 @@ add_filter( 'woocommerce_product_tabs', function ( $tabs ) {
 
 // Sticky cart HTML
 add_action( 'wp_footer', function () {
-    if ( ! is_product() ) {
+    if ( ! vet3d_wc_active() || ! is_product() ) {
         return;
     }
     
@@ -612,6 +617,10 @@ add_action( 'save_post_seo_page', function ( $post_id ) {
 
 // Shortcode om producten van specifieke categorieën te tonen
 add_shortcode( 'vet3d_products', function ( $atts ) {
+    if ( ! vet3d_wc_active() ) {
+        return '';
+    }
+
     $atts = shortcode_atts( array(
         'category' => '', // Categorie slug of ID (komma-gescheiden voor meerdere)
         'limit' => 12,
