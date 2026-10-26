@@ -1,0 +1,19 @@
+# Alleen eigen code in git: het thema en de eigen plugins.
+# WordPress-core, plugins van derden, uploads en de database blijven buiten git.
+/*
+!/.gitignore
+!/.github/
+!/bin/
+!/README.md
+
+/themes/*
+!/themes/vet3d/
+
+/plugins/*
+!/plugins/vet3d-custom-product-fields/
+!/plugins/vet3d-print-calculator/
+
+!/themes/
+!/plugins/
+
+.DS_Store

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frmForms>
+  <form>
+    <id>offerte</id>
+    <form_key>offerte</form_key>
+    <name>Offerte aanvraag</name>
+    <description>3D-print offerte formulier met bestand upload</description>
+    <parent_form_id></parent_form_id>
+    <logged_in>0</logged_in>
+    <editable>0</editable>
+    <is_template>0</is_template>
+    <default_template>0</default_template>
+    <status>published</status>
+    <options>
+      <submit_value>Verstuur aanvraag</submit_value>
+      <success_msg>Bedankt! Je aanvraag is ontvangen. We nemen binnen 1 werkdag contact met je op.</success_msg>
+      <edit_value>Update</edit_value>
+      <edit_msg>Your submission was successfully updated.</edit_msg>
+      <before_html></before_html>
+      <after_html></after_html>
+    </options>
+    <fields>
+      <field>
+        <id>naam</id>
+        <field_key>naam</field_key>
+        <name>Naam</name>
+        <description></description>
+        <type>text</type>
+        <default_value></default_value>
+        <field_options>
+          <size>large</size>
+          <required>1</required>
+        </field_options>
+        <field_order>1</field_order>
+        <required>1</required>
+      </field>
+      <field>
+        <id>email</id>
+        <field_key>email</field_key>
+        <name>E-mailadres</name>
+        <description></description>
+        <type>email</type>
+        <default_value></default_value>
+        <field_options>
+          <size>large</size>
+          <required>1</required>
+        </field_options>
+        <field_order>2</field_order>
+        <required>1</required>
+      </field>
+      <field>
+        <id>telefoon</id>
+        <field_key>telefoon</field_key>
+        <name>Telefoon (optioneel)</name>
+        <description></description>
+        <type>phone</type>
+        <default_value></default_value>
+        <field_options>
+          <size>large</size>
+          <required>0</required>
+        </field_options>
+        <field_order>3</field_order>
+        <required>0</required>
+      </field>
+      <field>
+        <id>aantal</id>
+        <field_key>aantal</field_key>
+        <name>Aantal</name>
+        <description></description>
+        <type>number</type>
+        <default_value>1</default_value>
+        <field_options>
+          <size>large</size>
+          <required>1</required>
+          <minnum>1</minnum>
+        </field_options>
+        <field_order>4</field_order>
+        <required>1</required>
+      </field>
+      <field>
+        <id>type_aanvraag</id>
+        <field_key>type_aanvraag</field_key>
+        <name>Type aanvraag</name>
+        <description></description>
+        <type>select</type>
+        <default_value></default_value>
+        <options>Ik heb een 3D-bestand (STL, 3MF, OBJ)
+Ik heb een foto van wat ik wil printen
+Ik heb een idee/schets
+Ik wil een bestaand product aanpassen</options>
+        <field_options>
+          <size>large</size>
+          <required>1</required>
+        </field_options>
+        <field_order>5</field_order>
+        <required>1</required>
+      </field>
+      <field>
+        <id>bestand</id>
+        <field_key>bestand</field_key>
+        <name>Upload bestand(en)</name>
+        <description>3D-bestanden (.stl, .3mf, .obj), foto's (.jpg, .png), of schetsen (.pdf). Meerdere bestanden mogelijk.</description>
+        <type>file</type>
+        <default_value></default_value>
+        <field_options>
+          <size>large</size>
+          <required>0</required>
+          <ftypes>stl,obj,3mf,jpg,jpeg,png,pdf,heic</ftypes>
+          <multiple>1</multiple>
+        </field_options>
+        <field_order>6</field_order>
+        <required>0</required>
+      </field>
+      <field>
+        <id>materiaal</id>
+        <field_key>materiaal</field_key>
+        <name>Materiaal &amp; kleur (indien bekend)</name>
+        <description></description>
+        <type>select</type>
+        <default_value>Weet ik nog niet / advies gewenst</default_value>
+        <options>Weet ik nog niet / advies gewenst
+PLA – standaard (meest gebruikt)
+PETG – sterk en flexibel
+ABS – hittebestendig
+Resin – hoog detail en glad</options>
+        <field_options>
+          <size>large</size>
+          <required>0</required>
+        </field_options>
+        <field_order>7</field_order>
+        <required>0</required>
+      </field>
+      <field>
+        <id>bericht</id>
+        <field_key>bericht</field_key>
+        <name>Omschrijving &amp; wensen</name>
+        <description></description>
+        <type>textarea</type>
+        <default_value></default_value>
+        <placeholder>Bijv: Gewenste afmetingen, kleur, aantal, deadline, specifieke wensen of vragen...</placeholder>
+        <field_options>
+          <size>5</size>
+          <required>1</required>
+        </field_options>
+        <field_order>8</field_order>
+        <required>1</required>
+      </field>
+    </fields>
+  </form>
+</frmForms>

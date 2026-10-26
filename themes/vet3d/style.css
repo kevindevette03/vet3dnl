@@ -1,0 +1,864 @@
+/*
+Theme Name: Vet!3D
+Theme URI: https://vet3d.nl
+Author: Vet!3D
+Author URI: https://vet3d.nl
+Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
+Version: 2.2.1
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: vet3d
+*/
+
+/* Logo (ingebouwd via core/html in header en footer) */
+.vet-logo-h svg{height:34px;width:auto;display:block}
+.vet-logo-f svg{height:24px;width:auto;display:block}
+.vet-logo-h,.vet-logo-f{display:inline-block;line-height:0}
+
+/* Hero-label */
+.vet-pill{display:inline-block;background:#FDE3D6;color:#B83D12;font-size:12px;font-weight:700;
+  padding:6px 13px;border-radius:20px;margin:0 0 4px}
+
+/* Knoppen net iets levendiger */
+.wp-element-button,.wp-block-button__link{transition:transform .12s ease,filter .12s ease}
+.wp-element-button:hover,.wp-block-button__link:hover{transform:translateY(-2px);filter:brightness(1.04)}
+
+/* USP-strip + productkaarten (gebruikt door de patterns) */
+.vet-usp{background:#1B1B22;color:#EDEDF2}
+.vet-usp .row{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:16px;
+  justify-content:space-between;padding:16px 28px;font-size:14px;font-weight:500}
+.vet-usp i,.vet-usp .ic{color:#FF8C42;margin-right:8px}
+.vet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.vet-card{border:1px solid #ECE5DB;border-radius:16px;overflow:hidden;background:#fff;
+  transition:transform .14s ease,box-shadow .14s ease}
+.vet-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(27,27,34,.10)}
+.vet-card .thumb{height:150px;display:flex;align-items:center;justify-content:center;font-size:52px}
+.vet-card .body{padding:16px}
+.vet-card .name{font-weight:600;font-size:15px;margin:0 0 10px}
+.vet-card .pr{display:flex;align-items:center;justify-content:space-between}
+.vet-card .price{font-weight:800;font-size:18px}
+.vet-card .add{background:#FF6B35;color:#fff;border:none;border-radius:10px;width:42px;height:42px;
+  font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+footer .vet-foot{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;
+  align-items:center;gap:20px;flex-wrap:wrap;padding:30px 28px;color:#9A9AA4;font-size:14px}
+
+/* ---- Mini-Cart in header (WooCommerce) ---- */
+.vet-cart .wc-block-mini-cart__button{color:#fff}
+.vet-cart .wc-block-mini-cart__button svg{fill:#fff}
+.vet-cart .wc-block-mini-cart__amount{color:#fff;font-weight:600}
+.vet-cart .wc-block-mini-cart__badge{background:#FF6B35;color:#fff}
+
+/* ---- Productpagina (WooCommerce) ---- */
+.wc-block-breadcrumbs,.woocommerce-breadcrumb{font-size:13px;color:#8A8378;margin-bottom:16px}
+.single-product .wp-block-post-title{font-weight:900;letter-spacing:-.01em;
+  font-size:clamp(28px,4vw,40px);margin:0 0 8px}
+.wc-block-components-product-price,.single-product .price{font-weight:800;color:#1B1B22}
+.single-product .wc-block-add-to-cart-form .single_add_to_cart_button,
+.single-product .single_add_to_cart_button{background:#FF6B35;border:none;border-radius:11px;
+  font-weight:700;padding:14px 26px}
+.single-product .single_add_to_cart_button:hover{filter:brightness(1.05)}
+
+/* ---- Offerte / upload-formulier ---- */
+.vet-offerte{max-width:720px;background:#fff;border:1px solid #ECE5DB;border-radius:18px;
+  padding:28px;display:flex;flex-direction:column;gap:16px}
+.vet-offerte .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vet-offerte label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;color:#1B1B22}
+.vet-offerte input,.vet-offerte select,.vet-offerte textarea{font-family:inherit;font-size:15px;
+  font-weight:400;padding:11px 13px;border:1.5px solid #E3DBCF;border-radius:10px;background:#FCFAF6;color:#1B1B22}
+.vet-offerte input:focus,.vet-offerte select:focus,.vet-offerte textarea:focus{outline:none;border-color:#FF6B35}
+.vet-offerte input[type=file]{padding:14px;background:#FDEEE4;border-style:dashed;border-color:#FF8C42;cursor:pointer}
+.vet-submit{align-self:flex-start;background:#FF6B35;color:#fff;border:none;border-radius:11px;
+  padding:13px 26px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;transition:filter .12s}
+.vet-submit:hover{filter:brightness(1.05)}
+.vet-note{font-size:13px;color:#8A8378;font-weight:400;margin:0}
+@media(max-width:600px){.vet-offerte .grid2{grid-template-columns:1fr}}
+
+/* Formidable Forms styling voor offerte formulier */
+.vet-offerte .frm_forms{margin:0}
+.vet-offerte .frm_form_fields{display:flex;flex-direction:column;gap:16px}
+.vet-offerte .frm_form_field{margin:0 !important}
+.vet-offerte .frm_primary_label{display:block;font-weight:600;font-size:14px;color:#1B1B22;margin-bottom:6px}
+.vet-offerte .frm_description{font-size:12px;color:#8A8378;margin-top:4px}
+.vet-offerte input[type=text],.vet-offerte input[type=email],.vet-offerte input[type=tel],
+.vet-offerte input[type=number],.vet-offerte input[type=url],.vet-offerte select,
+.vet-offerte textarea{font-family:inherit;font-size:15px;font-weight:400;padding:11px 13px;
+  border:1.5px solid #E3DBCF !important;border-radius:10px !important;background:#FCFAF6 !important;color:#1B1B22;width:100%;box-shadow:none !important}
+.vet-offerte input:focus,.vet-offerte select:focus,.vet-offerte textarea:focus{outline:none !important;border-color:#FF6B35 !important;box-shadow:none !important}
+.vet-offerte input[type=file]{padding:14px !important;background:#FDEEE4 !important;border-style:dashed !important;border-color:#FF8C42 !important;cursor:pointer}
+.vet-offerte .frm_dropzone{background:#FDEEE4 !important;border:1.5px dashed #FF8C42 !important;border-radius:10px !important;padding:20px !important}
+.vet-offerte .frm_submit{display:flex;justify-content:flex-start}
+.vet-offerte .frm_submit button,.vet-offerte .frm_button_submit{background:#FF6B35 !important;color:#fff !important;
+  border:none !important;border-radius:11px !important;padding:13px 26px !important;font-weight:700 !important;
+  font-size:15px !important;cursor:pointer;font-family:inherit !important;transition:filter .12s;box-shadow:none !important}
+.vet-offerte .frm_submit button:hover,.vet-offerte .frm_button_submit:hover{filter:brightness(1.05)}
+.vet-offerte .frm_error_style,.vet-offerte .frm_message{border-radius:8px;padding:12px;margin-bottom:16px}
+.vet-offerte .frm_error_style{background:#FEE;border-color:#C33}
+.vet-offerte .frm_message{background:#E7F5E7;border-color:#5C5}
+
+/* ---- Productcollectie op de homepage als kaarten (v1.3) ---- */
+#producten .wp-block-woocommerce-product-template{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:20px;list-style:none;margin:24px 0 0;padding:0}
+#producten .wp-block-woocommerce-product-template .wp-block-post{
+  border:1px solid #ECE5DB;border-radius:16px;overflow:hidden;background:#fff;margin:0;
+  display:flex;flex-direction:column;transition:transform .14s ease,box-shadow .14s ease}
+#producten .wp-block-woocommerce-product-template .wp-block-post:hover{
+  transform:translateY(-4px);box-shadow:0 14px 30px rgba(27,27,34,.10)}
+#producten .wp-block-post figure,
+#producten .wp-block-post .wc-block-components-product-image,
+#producten .wp-block-post .wp-block-woocommerce-product-image{margin:0}
+#producten .wp-block-post img{width:100%;height:200px;object-fit:cover;display:block;background:#FDEEE4}
+#producten .wp-block-post .wp-block-post-title{margin:0;padding:14px 16px 0;font-size:15px;font-weight:600;line-height:1.3}
+#producten .wp-block-post .wp-block-post-title a{color:#1B1B22;text-decoration:none}
+#producten .wp-block-post .wp-block-woocommerce-product-price{padding:6px 16px 0;font-weight:800;color:#1B1B22}
+#producten .wp-block-post .wp-block-woocommerce-product-button{padding:12px 16px 16px;margin-top:auto}
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-block-button__link,
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-element-button{
+  background:#FF6B35;color:#fff;border:none;border-radius:10px;font-weight:700;
+  padding:11px 16px;width:100%;text-align:center;display:block}
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-block-button__link:hover,
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-element-button:hover{filter:brightness(1.05)}
+
+/* Statische showcase-kaarten als klikbare links (zelfde uiterlijk) */
+a.vet-card{text-decoration:none;color:inherit;display:block}
+.vet-card .add{display:flex;align-items:center;justify-content:center}
+
+/* ---- Dynamische productkaarten: forceer het kaart-ontwerp (v1.5) ---- */
+#producten .wp-block-woocommerce-product-template{
+  display:grid !important;grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) !important;
+  gap:20px !important;list-style:none;margin:24px 0 0;padding:0}
+#producten .wp-block-woocommerce-product-template > li,
+#producten .wp-block-woocommerce-product-template .wp-block-post{
+  border:1px solid #ECE5DB;border-radius:16px;overflow:hidden;background:#fff;margin:0 !important;
+  display:flex !important;flex-direction:column;gap:0;
+  transition:transform .14s ease,box-shadow .14s ease}
+#producten .wp-block-woocommerce-product-template .wp-block-post:hover{
+  transform:translateY(-4px);box-shadow:0 14px 30px rgba(27,27,34,.10)}
+#producten .wp-block-post figure,
+#producten .wp-block-post .wc-block-components-product-image,
+#producten .wp-block-post .wp-block-woocommerce-product-image{margin:0 !important;background:#FDEEE4}
+#producten .wp-block-post img{width:100%;height:200px;object-fit:cover;display:block}
+#producten .wp-block-post .wp-block-post-title{margin:0;padding:14px 16px 0;font-size:15px;font-weight:600;line-height:1.3}
+#producten .wp-block-post .wp-block-post-title a{color:#1B1B22;text-decoration:none}
+#producten .wp-block-post .wp-block-woocommerce-product-price{padding:6px 16px 0;font-weight:800;color:#1B1B22}
+#producten .wp-block-post .wp-block-woocommerce-product-button{padding:12px 16px 16px;margin-top:auto}
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-block-button__link,
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-element-button{
+  background:#FF6B35;color:#fff;border:none;border-radius:10px;font-weight:700;
+  padding:11px 16px;width:100%;text-align:center;display:block}
+#producten .wp-block-post .wp-block-woocommerce-product-button .wp-block-button__link:hover{filter:brightness(1.05)}
+
+/* ---- v1.6: robuustere kaart-styling, hover + padding ---- */
+#producten .wp-block-post-template,
+#producten .wp-block-woocommerce-product-template{
+  display:grid !important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr)) !important;
+  gap:22px !important;list-style:none;margin:26px 0 0 !important;padding:0 !important}
+#producten .wp-block-post-template > li,
+#producten .wp-block-woocommerce-product-template > li,
+#producten li.product{
+  border:1px solid #ECE5DB;border-radius:16px;overflow:hidden;background:#fff;
+  margin:0 !important;padding:0 !important;display:flex !important;flex-direction:column;
+  transition:transform .16s ease,box-shadow .16s ease}
+#producten .wp-block-post-template > li:hover,
+#producten .wp-block-woocommerce-product-template > li:hover,
+#producten li.product:hover{
+  transform:translateY(-5px);box-shadow:0 16px 34px rgba(27,27,34,.12)}
+#producten li.product figure,
+#producten li.product .wc-block-components-product-image{margin:0 !important;background:#FDEEE4;line-height:0}
+#producten li.product img{width:100%;height:210px;object-fit:cover;display:block}
+#producten li.product .wp-block-post-title,
+#producten li.product .wc-block-components-product-title{
+  margin:0 !important;padding:16px 18px 0;font-size:15px;font-weight:600;line-height:1.3}
+#producten li.product .wp-block-post-title a{color:#1B1B22;text-decoration:none}
+#producten li.product .wp-block-woocommerce-product-price,
+#producten li.product .price{margin:0 !important;padding:8px 18px 0;font-weight:800;color:#1B1B22}
+#producten li.product .wp-block-woocommerce-product-button{padding:14px 18px 18px !important;margin-top:auto !important}
+#producten li.product .wp-block-woocommerce-product-button a,
+#producten li.product .wp-block-woocommerce-product-button button,
+#producten li.product .add_to_cart_button,
+#producten li.product .wp-block-woocommerce-product-button .button{
+  background:#FF6B35 !important;color:#fff !important;border:none;border-radius:10px;
+  font-weight:700;padding:12px 16px !important;width:100%;text-align:center;display:block;
+  transition:filter .12s ease}
+#producten li.product .wp-block-woocommerce-product-button a:hover{filter:brightness(1.06)}
+
+/* ---- v1.7: secties op de homepage strak tegen elkaar (geen marge rond hero) ---- */
+.home .wp-site-blocks > *{margin-block-start:0 !important;margin-block-end:0 !important}
+
+/* ---- v1.8: zelfde kaart-stijl op shop/archief, categorieen, tags & gerelateerd ---- */
+.woocommerce .wp-block-woocommerce-product-template,
+.woocommerce .wp-block-post-template,
+.woocommerce ul.products{
+  display:grid !important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr)) !important;
+  gap:22px !important;list-style:none;margin:0 !important;padding:0 !important;justify-items:start !important}
+.woocommerce li.product,
+.woocommerce .wp-block-post.product{
+  width:auto !important;float:none !important;margin:0 !important;padding:0 !important;
+  border:1px solid #ECE5DB;border-radius:16px;overflow:visible;background:#fff;text-align:left;
+  display:flex !important;flex-direction:column;transition:transform .16s ease,box-shadow .16s ease}
+.woocommerce li.product:hover,
+.woocommerce .wp-block-post.product:hover{
+  transform:translateY(-5px);box-shadow:0 16px 34px rgba(27,27,34,.12)}
+.woocommerce li.product figure,
+.woocommerce li.product .wc-block-components-product-image{margin:0 !important;background:#FDEEE4;line-height:0;border-radius:16px 16px 0 0;overflow:hidden}
+.woocommerce li.product img{width:100% !important;height:210px;object-fit:cover;display:block;margin:0 !important}
+.woocommerce li.product .woocommerce-loop-product__title,
+.woocommerce li.product .wp-block-post-title,
+.woocommerce li.product .wc-block-components-product-title{
+  margin:0 !important;padding:16px 18px 0 !important;font-size:15px !important;font-weight:600;line-height:1.4;color:#1B1B22;min-height:auto !important;overflow:visible !important;text-overflow:clip !important;white-space:normal !important}
+.woocommerce li.product .price,
+.woocommerce li.product .wp-block-woocommerce-product-price,
+.woocommerce li.product .wc-block-components-product-price{
+  margin:0 !important;padding:8px 18px 0 !important;font-weight:800 !important;color:#1B1B22 !important;font-size:16px !important}
+.woocommerce li.product .wp-block-woocommerce-product-button{padding:14px 18px 18px !important;margin-top:auto !important}
+.woocommerce li.product .button,
+.woocommerce li.product .add_to_cart_button,
+.woocommerce li.product .wp-block-woocommerce-product-button a,
+.woocommerce li.product .wp-block-woocommerce-product-button .wp-element-button{
+  background:#FF6B35 !important;color:#fff !important;border:none !important;border-radius:10px !important;
+  font-weight:700 !important;padding:10px 12px !important;width:calc(100% - 36px) !important;text-align:center;display:block !important;
+  margin:14px 18px 18px !important;font-size:13px !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box !important}
+.woocommerce li.product .wp-block-woocommerce-product-button .wp-element-button{margin:0 !important}
+.woocommerce li.product .button:hover{filter:brightness(1.06)}
+
+/* ====== v1.9: hele WooCommerce-flow in huisstijl ====== */
+
+/* Primaire CTA-knoppen (classic + block): oranje */
+.woocommerce a.button.alt,.woocommerce button.button.alt,.woocommerce input.button.alt,
+.woocommerce .single_add_to_cart_button,.woocommerce .checkout-button,
+.woocommerce #respond input#submit.alt,.woocommerce-cart .wc-proceed-to-checkout a.checkout-button,
+.wc-block-components-button.contained,
+.wp-block-woocommerce-cart .wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button{
+  background:#FF6B35 !important;color:#fff !important;border:none !important;border-radius:11px !important;
+  font-weight:700 !important;padding:14px 26px !important;font-family:inherit !important;
+  box-shadow:none !important;transition:filter .12s ease}
+.woocommerce a.button.alt:hover,.woocommerce button.button.alt:hover,
+.woocommerce .single_add_to_cart_button:hover,.woocommerce .checkout-button:hover,
+.wc-block-components-button.contained:hover,
+.wc-block-components-checkout-place-order-button:hover{filter:brightness(1.05) !important}
+
+/* Secundaire knoppen (Winkelwagen bijwerken, Verder winkelen, coupon): subtiel */
+.woocommerce .button:not(.alt):not(.single_add_to_cart_button):not(.add_to_cart_button):not(.checkout-button),
+.wc-block-components-button.outlined{
+  background:#fff !important;color:#1B1B22 !important;border:1.5px solid #1B1B22 !important;
+  border-radius:11px !important;font-weight:700 !important;padding:11px 20px !important;box-shadow:none !important}
+.woocommerce .button:not(.alt):hover,.wc-block-components-button.outlined:hover{
+  background:#1B1B22 !important;color:#fff !important}
+
+/* Prijzen */
+.woocommerce .price,.woocommerce-Price-amount,
+.wc-block-components-product-price,.wc-block-formatted-money-amount{color:#1B1B22;font-weight:800}
+.woocommerce del,.wc-block-components-product-price del{opacity:.5;font-weight:600}
+.woocommerce ins,.wc-block-components-product-price ins{text-decoration:none}
+
+/* Aanbieding-badge in cyaan accent */
+.woocommerce span.onsale,.wc-block-components-product-sale-badge{
+  background:#1FBFC4 !important;color:#fff !important;border:none !important;border-radius:20px !important;
+  font-weight:700 !important;box-shadow:none !important;min-height:0;padding:5px 12px !important}
+
+/* Hoeveelheid + invoervelden */
+.woocommerce .quantity input.qty,
+.woocommerce form .form-row input.input-text,.woocommerce form .form-row select,
+.woocommerce form .form-row textarea,.woocommerce-checkout input.input-text{
+  border:1.5px solid #E3DBCF !important;border-radius:10px !important;background:#FCFAF6 !important;
+  padding:11px 13px !important;font-family:inherit}
+.woocommerce .quantity input.qty:focus,.woocommerce form .form-row input:focus,
+.woocommerce form .form-row select:focus,.woocommerce form .form-row textarea:focus{
+  outline:none !important;border-color:#FF6B35 !important}
+.wc-block-components-text-input input,.wc-block-components-select{accent-color:#FF6B35}
+.wc-block-components-text-input.is-active label,
+.wc-block-components-text-input input:focus{border-color:#FF6B35 !important}
+
+/* Productdetailpagina */
+.single-product div.product .product_title,.single-product .wp-block-post-title{
+  font-weight:900;letter-spacing:-.01em}
+.single-product div.product p.price,.single-product div.product span.price{
+  font-size:24px;font-weight:800;color:#1B1B22}
+.woocommerce-tabs ul.tabs li.active{background:#fff;border-bottom-color:#fff}
+.woocommerce-tabs ul.tabs li.active a{color:#FF6B35}
+.woocommerce div.product .woocommerce-tabs ul.tabs::before{border-bottom-color:#ECE5DB}
+
+/* Winkelwagen- en kassakaders */
+.cart_totals,.wc-block-components-totals-wrapper,
+.wc-block-checkout__sidebar,.woocommerce-checkout #order_review{
+  background:#F7F2EB;border:1px solid #ECE5DB;border-radius:16px;padding:20px}
+.woocommerce-cart table.cart,.woocommerce table.shop_table{
+  border:1px solid #ECE5DB;border-radius:14px;overflow:hidden}
+
+/* Meldingen */
+.woocommerce-message,.woocommerce-info,.woocommerce-error,
+.wc-block-components-notice-banner{border-radius:12px}
+.woocommerce-message,.wc-block-components-notice-banner.is-success{border-top-color:#FF6B35}
+.woocommerce-message::before,.woocommerce-info::before{color:#FF6B35}
+.wc-block-components-notice-banner.is-info{background:#DDF3F4}
+
+/* Links / accenten */
+.woocommerce a:not(.button):hover,.woocommerce-breadcrumb a:hover{color:#D44A1A}
+
+/* ====== Coolblue-stijl Product Gallery (thumbnails horizontaal onder) ====== */
+.single-product div.product .woocommerce-product-gallery{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:100%;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport{
+  width:100%;
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.single-product div.product .woocommerce-product-gallery .woocommerce-product-gallery__wrapper{
+  display:flex;
+  margin:0;
+  padding:0;
+}
+
+.single-product div.product .woocommerce-product-gallery__image{
+  margin:0;
+  width:100%;
+}
+
+.single-product div.product .woocommerce-product-gallery__image img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:12px;
+  background:#FDEEE4;
+}
+
+/* Thumbnails horizontaal onder - max 3 zichtbaar, dan slider */
+.single-product div.product .flex-control-thumbs{
+  display:flex;
+  flex-direction:row;
+  gap:10px;
+  margin:0;
+  padding:0;
+  list-style:none;
+  overflow:hidden;
+  position:relative;
+  width:270px;
+}
+
+.single-product div.product .woocommerce-product-gallery{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  max-width:100%;
+  margin-bottom:20px;
+  position:relative;
+}
+
+.single-product div.product .woocommerce-product-gallery .gallery-with-nav{
+  position:relative;
+  display:inline-block;
+}
+
+.single-product div.product .flex-control-thumbs li{
+  margin:0;
+  width:80px;
+  height:80px;
+  flex-shrink:0;
+  border-radius:8px;
+  overflow:hidden;
+  border:2px solid #ECE5DB;
+  cursor:pointer;
+  transition:border-color .2s ease,transform .2s ease;
+}
+
+.single-product div.product .flex-control-thumbs li:hover{
+  border-color:#FF6B35;
+  transform:scale(1.05);
+}
+
+.single-product div.product .flex-control-thumbs li.flex-active{
+  border-color:#FF6B35;
+  box-shadow:0 0 0 1px #FF6B35;
+}
+
+.single-product div.product .flex-control-thumbs li img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* Slider navigatie pijltjes (alleen als er >3 afbeeldingen zijn) */
+.vet3d-thumb-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:#fff;
+  border:2px solid #ECE5DB;
+  border-radius:50%;
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:all .2s ease;
+  z-index:10;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.vet3d-thumb-nav:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.vet3d-thumb-nav:not(:disabled):hover{
+  border-color:#FF6B35;
+  background:#FF6B35;
+  color:#fff;
+}
+
+.vet3d-thumb-nav.prev{
+  left:-16px;
+}
+
+.vet3d-thumb-nav.next{
+  right:-16px;
+}
+
+.vet3d-thumb-nav svg{
+  width:16px;
+  height:16px;
+  fill:currentColor;
+}
+
+/* Sticky toevoegen knop (CRO) - verschijnt bij scrollen */
+.vet3d-sticky-cart{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#fff;
+  border-top:1px solid #ECE5DB;
+  padding:16px 20px;
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  z-index:999;
+  box-shadow:0 -4px 12px rgba(0,0,0,.08);
+  animation:slideUp .3s ease;
+}
+
+.vet3d-sticky-cart.visible{
+  display:flex;
+}
+
+@keyframes slideUp{
+  from{transform:translateY(100%)}
+  to{transform:translateY(0)}
+}
+
+.vet3d-sticky-cart .product-info{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.vet3d-sticky-cart .product-info img{
+  width:50px;
+  height:50px;
+  object-fit:cover;
+  border-radius:6px;
+  border:1px solid #ECE5DB;
+}
+
+.vet3d-sticky-cart .product-info .details h4{
+  margin:0;
+  font-size:14px;
+  font-weight:600;
+  color:#1B1B22;
+}
+
+.vet3d-sticky-cart .product-info .details .price{
+  font-size:16px;
+  font-weight:800;
+  color:#1B1B22;
+  margin:2px 0 0;
+}
+
+.vet3d-sticky-cart .add-action{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.vet3d-sticky-cart .add-action .quantity{
+  display:flex;
+  align-items:center;
+  border:1.5px solid #E3DBCF;
+  border-radius:8px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.vet3d-sticky-cart .add-action .quantity button{
+  background:#F7F2EB;
+  border:none;
+  width:32px;
+  height:40px;
+  cursor:pointer;
+  font-size:18px;
+  color:#1B1B22;
+  transition:background .2s;
+}
+
+.vet3d-sticky-cart .add-action .quantity button:hover{
+  background:#FF6B35;
+  color:#fff;
+}
+
+.vet3d-sticky-cart .add-action .quantity input{
+  border:none;
+  width:50px;
+  text-align:center;
+  font-weight:600;
+  font-size:15px;
+  background:#fff;
+}
+
+.vet3d-sticky-cart .add-action .add-btn{
+  background:#FF6B35 !important;
+  color:#fff !important;
+  border:none !important;
+  border-radius:11px !important;
+  font-weight:700 !important;
+  padding:12px 24px !important;
+  cursor:pointer;
+  transition:filter .12s;
+  white-space:nowrap;
+}
+
+.vet3d-sticky-cart .add-action .add-btn:hover{
+  filter:brightness(1.05);
+}
+
+@media(max-width:768px){
+  .vet3d-sticky-cart{
+    flex-direction:column;
+    gap:12px;
+    padding:12px 16px;
+  }
+  .vet3d-sticky-cart .add-action{
+    width:100%;
+    justify-content:space-between;
+  }
+}
+
+/* Navigation submenu styling */
+.wp-block-navigation__submenu-container{
+  background:#fff !important;
+  border:1px solid #ECE5DB;
+  border-radius:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  padding:8px 0 !important;
+}
+
+.wp-block-navigation__submenu-container .wp-block-navigation-item a,
+.wp-block-navigation__submenu-container .wp-block-navigation-item__content{
+  color:#1B1B22 !important;
+  padding:10px 20px !important;
+}
+
+.wp-block-navigation__submenu-container .wp-block-navigation-item a:hover{
+  background:#F7F2EB !important;
+  color:#FF6B35 !important;
+}
+
+/* Header navigation and cart alignment */
+header .wp-block-group > .wp-block-group{
+  max-width:1180px;
+  width:100%;
+  margin:0 auto;
+}
+
+header .wp-block-group > .wp-block-group > div:last-child{
+  margin-left:auto;
+}
+
+/* ====== v2.0: Lookbook — editorial fotografie-mozaïek ====== */
+.vet-lookbook{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:210px;
+  grid-auto-flow:dense;
+  gap:16px;
+  margin-top:30px;
+}
+.vet-lookbook .vet-tile{
+  min-height:0 !important;
+  height:100%;
+  margin:0 !important;
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  position:relative;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.vet-lookbook > .wp-block-cover.vet-tile:hover{
+  transform:translateY(-4px) scale(1.006);
+  box-shadow:0 18px 40px rgba(27,27,34,.16);
+}
+/* Tegelgroottes */
+.vet-lookbook .tile-big{grid-column:span 2;grid-row:span 2}
+.vet-lookbook .tile-wide{grid-column:span 2}
+.vet-lookbook .tile-tall{grid-row:span 2}
+
+/* Labels op de beeldtegels */
+.vet-lookbook .vet-tile .wp-block-cover__inner-container{width:100%;padding:0}
+.vet-lookbook .vet-tile-label{
+  margin:0;
+  padding:16px 18px;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  text-shadow:0 1px 8px rgba(0,0,0,.28);
+}
+.vet-lookbook .tile-dark-text .vet-tile-label{color:#5A2410 !important;text-shadow:none}
+/* Subtiele donkere voet zodat labels leesbaar blijven, ook op echte foto's */
+.vet-lookbook > .wp-block-cover.vet-tile::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:46%;
+  background:linear-gradient(to top,rgba(0,0,0,.32),rgba(0,0,0,0));
+  pointer-events:none;
+}
+.vet-lookbook .tile-dark-text.wp-block-cover::after{display:none}
+
+/* CTA-tegels tussen het beeld */
+.vet-lookbook .vet-cta{
+  height:100%;border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  border-color:#F3D9C7;
+}
+.vet-lookbook .vet-cta h3{margin:0 0 4px;line-height:1.15}
+.vet-lookbook .vet-cta p{margin:0}
+.vet-lookbook .vet-cta .wp-block-buttons{margin-top:14px}
+
+@media(max-width:900px){
+  .vet-lookbook{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
+  .vet-lookbook .tile-big{grid-column:span 2;grid-row:span 2}
+  .vet-lookbook .tile-wide{grid-column:span 2}
+}
+@media(max-width:560px){
+  .vet-lookbook{grid-template-columns:1fr;grid-auto-rows:200px}
+  .vet-lookbook .tile-big,.vet-lookbook .tile-wide{grid-column:span 1}
+  .vet-lookbook .tile-big,.vet-lookbook .tile-tall{grid-row:span 1}
+  .vet-lookbook .vet-cta{grid-row:span 1}
+}
+
+/* Op-maat callout op de productpagina */
+.vet-callout{background:#FDF3EC;border:1px solid #F3D9C7;border-radius:14px}
+.vet-callout p{color:#1B1B22}
+.vet-callout .has-muted-color{color:#8A8378 !important}
+
+/* ====== v2.1: Conversiegerichte offerte-pagina ====== */
+/* Trust-balk onder de hero */
+.vet-trust{display:flex;flex-wrap:wrap;gap:14px 26px;margin:0}
+.vet-trust span{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#1B1B22}
+.vet-trust i{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+  border-radius:50%;background:#FF6B35;color:#fff;font-size:12px;font-style:normal;flex:0 0 auto}
+
+/* Stappen */
+.vet-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+.vet-steps .step{background:#fff;border:1px solid #ECE5DB;border-radius:16px;padding:26px 24px;position:relative}
+.vet-steps .num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;
+  border-radius:50%;background:#1B1B22;color:#fff;font-weight:800;font-size:17px;margin-bottom:14px}
+.vet-steps h3{margin:0 0 6px;font-size:17px;font-weight:700;color:#1B1B22}
+.vet-steps p{margin:0;font-size:14px;line-height:1.55;color:#6C6A63}
+
+/* Waarom-kaarten */
+.vet-why{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+.vet-why .card{background:#FCFAF6;border:1px solid #ECE5DB;border-radius:16px;padding:26px 24px}
+.vet-why .ic{font-size:30px;line-height:1;margin-bottom:12px}
+.vet-why h3{margin:0 0 6px;font-size:17px;font-weight:700;color:#1B1B22}
+.vet-why p{margin:0;font-size:14px;line-height:1.55;color:#6C6A63}
+
+/* Testimonial */
+.vet-quote{text-align:center}
+.vet-quote .stars{color:#FF8C42;font-size:18px;letter-spacing:3px;margin-bottom:14px}
+.vet-quote .q{font-size:22px;line-height:1.4;font-weight:600;color:#1B1B22;margin:0 0 14px}
+.vet-quote .by{font-size:14px;color:#8A8378;margin:0}
+
+/* FAQ */
+.vet-faq{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.vet-faq details{background:#fff;border:1px solid #ECE5DB;border-radius:12px;padding:2px 20px;transition:border-color .15s ease}
+.vet-faq details[open]{border-color:#F3D9C7}
+.vet-faq summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:700;font-size:16px;color:#1B1B22;
+  display:flex;justify-content:space-between;align-items:center;gap:16px}
+.vet-faq summary::-webkit-details-marker{display:none}
+.vet-faq summary::after{content:"+";font-size:22px;font-weight:400;color:#FF6B35;line-height:1;flex:0 0 auto}
+.vet-faq details[open] summary::after{content:"\2212"}
+.vet-faq p{margin:0 0 16px;font-size:15px;line-height:1.6;color:#6C6A63}
+
+@media(max-width:820px){
+  .vet-steps,.vet-why{grid-template-columns:1fr}
+  .vet-quote .q{font-size:19px}
+}
+
+/* 3D Viewer */
+.vet-3d-viewer {
+  cursor: grab;
+}
+.vet-3d-viewer:active {
+  cursor: grabbing;
+}
+.vet-3d-viewer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Product met 3D indicator */
+.vet-product-with-3d {
+  position: relative;
+}
+.vet-product-with-3d::before {
+  content: '🔮';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 140, 66, 0.9);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Lookbook tile met 3D */
+.vet-tile[data-stl-url] {
+  cursor: pointer;
+}
+.vet-tile[data-stl-url]:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+}
+
+/* SEO Pagina Products */
+.seo-page-products {
+  margin-top: 50px;
+}
+
+.seo-page-products .products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.seo-page-products .products.columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.seo-page-products .products.columns-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.seo-page-products .products.columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .seo-page-products .products.columns-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .seo-page-products .products.columns-4,
+  .seo-page-products .products.columns-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .seo-page-products .products {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pagination styling voor SEO pagina's */
+.seo-page-products .woocommerce-pagination {
+  text-align: center;
+}
+
+.seo-page-products .woocommerce-pagination ul {
+  display: inline-flex;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.seo-page-products .woocommerce-pagination li {
+  margin: 0;
+}
+
+.seo-page-products .woocommerce-pagination a,
+.seo-page-products .woocommerce-pagination span {
+  display: block;
+  padding: 10px 16px;
+  background: #fff;
+  border: 2px solid #ECE5DB;
+  border-radius: 8px;
+  color: #1B1B22;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.seo-page-products .woocommerce-pagination a:hover {
+  background: #FF8C42;
+  border-color: #FF8C42;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.seo-page-products .woocommerce-pagination .current {
+  background: #1B1B22;
+  border-color: #1B1B22;
+  color: #fff;
+}
+
+
+/* Scroll-gestuurde video (pattern vet3d/scroll-video) */
+.vet-scrollvideo{position:relative;height:300vh;background:#1B1B22}
+.vet-scrollvideo .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.vet-scrollvideo video{display:block;width:100%;height:100%;object-fit:cover}
+.vet-scrollvideo .stick::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(27,27,34,.72) 0%,rgba(27,27,34,.35) 55%,rgba(27,27,34,0) 100%);
+  opacity:calc(1 - var(--p,0) * 4)}
+.vet-scrollvideo__content{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  max-width:1180px;margin:0 auto;padding:0 28px;color:#fff;
+  opacity:calc(1 - var(--p,0) * 4);transform:translateY(calc(var(--p,0) * -120px))}
+.vet-scrollvideo__content > *{max-width:640px}
+.vet-scrollvideo__content h1{color:#fff;margin:12px 0}
+.vet-scrollvideo__sub{font-size:18px;color:#EDEDF2;margin:0 0 24px}
+.vet-scrollvideo__content .wp-block-buttons{display:flex;flex-wrap:wrap;gap:12px}
+.vet-scrollvideo__content .is-style-outline .wp-block-button__link{background:transparent;border:2px solid #fff}
+@media (max-width:781px){
+  .vet-scrollvideo .stick::after{background:rgba(27,27,34,.55)}
+  .vet-scrollvideo__sub{font-size:16px}
+}
+.vet-scrollvideo.is-static{height:auto}
+.vet-scrollvideo.is-static .stick{position:static;height:auto}
+.vet-scrollvideo.is-static video{height:auto;min-height:80vh}

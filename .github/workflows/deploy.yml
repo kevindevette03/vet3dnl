@@ -1,0 +1,48 @@
+# Deployt het thema en de eigen plugins via FTPS naar SiteGround bij elke push naar main.
+# Alleen gewijzigde bestanden worden geüpload; de action houdt bij wat er op de server staat
+# (.ftp-deploy-sync-state.json) en verwijdert alleen bestanden die hij zelf eerder heeft geplaatst.
+#
+# Benodigde repository-secrets:
+#   FTP_SERVER      gnld1041.siteground.eu
+#   FTP_USERNAME    het FTP-account
+#   FTP_PASSWORD    het wachtwoord van dat account
+#   FTP_SERVER_DIR  pad naar wp-content op de server, eindigend op /  (bijv. vet3d.nl/public_html/wp-content/)
+name: Deploy naar SiteGround
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Alleen tonen wat er zou gebeuren, niets uploaden
+        type: boolean
+        default: true
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.DS_Store
+            .github/**
+            bin/**
+            README.md

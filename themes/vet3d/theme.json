@@ -1,0 +1,195 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "1180px",
+      "wideSize": "1280px"
+    },
+    "color": {
+      "palette": [
+        {
+          "slug": "base",
+          "color": "#FFFFFF",
+          "name": "Wit"
+        },
+        {
+          "slug": "contrast",
+          "color": "#1B1B22",
+          "name": "Houtskool"
+        },
+        {
+          "slug": "primary",
+          "color": "#FF6B35",
+          "name": "Filament-oranje"
+        },
+        {
+          "slug": "primary-dark",
+          "color": "#D44A1A",
+          "name": "Oranje donker"
+        },
+        {
+          "slug": "secondary",
+          "color": "#1FBFC4",
+          "name": "Cyaan"
+        },
+        {
+          "slug": "cream",
+          "color": "#F4EFE8",
+          "name": "Crème"
+        },
+        {
+          "slug": "paper",
+          "color": "#F7F2EB",
+          "name": "Papier"
+        },
+        {
+          "slug": "muted",
+          "color": "#5F5A52",
+          "name": "Gedempt"
+        },
+        {
+          "slug": "line",
+          "color": "#ECE5DB",
+          "name": "Lijn"
+        }
+      ],
+      "custom": true,
+      "customGradient": false,
+      "defaultPalette": false
+    },
+    "typography": {
+      "fluid": true,
+      "customFontSize": true,
+      "fontFamilies": [
+        {
+          "fontFamily": "'Outfit', system-ui, -apple-system, sans-serif",
+          "slug": "outfit",
+          "name": "Outfit",
+          "fontFace": [
+            {
+              "fontFamily": "Outfit",
+              "fontWeight": "100 900",
+              "fontStyle": "normal",
+              "fontStretch": "normal",
+              "src": [
+                "file:./assets/fonts/Outfit.woff2"
+              ]
+            }
+          ]
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "small",
+          "size": "14px",
+          "name": "Klein"
+        },
+        {
+          "slug": "medium",
+          "size": "16px",
+          "name": "Normaal"
+        },
+        {
+          "slug": "large",
+          "size": "clamp(20px,2.2vw,24px)",
+          "name": "Groot"
+        },
+        {
+          "slug": "x-large",
+          "size": "clamp(26px,3vw,34px)",
+          "name": "Extra groot"
+        },
+        {
+          "slug": "xx-large",
+          "size": "clamp(34px,5vw,52px)",
+          "name": "Display"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var:preset|color|base",
+      "text": "var:preset|color|contrast"
+    },
+    "typography": {
+      "fontFamily": "var:preset|font-family|outfit",
+      "fontSize": "16px",
+      "lineHeight": "1.5"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontWeight": "800",
+          "lineHeight": "1.12",
+          "letterSpacing": "-0.01em"
+        }
+      },
+      "h1": {
+        "typography": {
+          "fontWeight": "900",
+          "lineHeight": "1.03",
+          "letterSpacing": "-0.02em"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var:preset|color|primary"
+        },
+        "typography": {
+          "textDecoration": "none"
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var:preset|color|primary",
+          "text": "var:preset|color|base"
+        },
+        "border": {
+          "radius": "11px"
+        },
+        "typography": {
+          "fontWeight": "700"
+        },
+        "spacing": {
+          "padding": {
+            "top": "13px",
+            "bottom": "13px",
+            "left": "22px",
+            "right": "22px"
+          }
+        }
+      }
+    }
+  },
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Header",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Footer",
+      "area": "footer"
+    }
+  ],
+  "customTemplates": [
+    {
+      "name": "front-page",
+      "title": "Homepage",
+      "postTypes": [
+        "page"
+      ]
+    },
+    {
+      "name": "page-offerte",
+      "title": "Offerte / Upload",
+      "postTypes": [
+        "page"
+      ]
+    }
+  ]
+}

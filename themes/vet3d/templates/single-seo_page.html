@@ -1,0 +1,86 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"40px","bottom":"60px","left":"28px","right":"28px"}}},"layout":{"type":"constrained","contentSize":"1180px"}} -->
+<main class="wp-block-group" style="padding-top:40px;padding-right:28px;padding-bottom:60px;padding-left:28px">
+
+<!-- wp:post-title {"level":1,"fontSize":"xx-large"} /-->
+
+<!-- wp:post-featured-image {"align":"wide"} /-->
+
+<!-- wp:post-excerpt /-->
+
+<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+
+<!-- wp:group {"className":"seo-page-products","layout":{"type":"default"}} -->
+<div class="wp-block-group seo-page-products">
+<?php
+global $post;
+
+// Haal SEO pagina instellingen op
+$show_products = get_post_meta( $post->ID, '_seo_show_products', true );
+$linked_categories = get_post_meta( $post->ID, '_seo_linked_categories', true );
+$products_title = get_post_meta( $post->ID, '_seo_products_title', true );
+$products_per_page = get_post_meta( $post->ID, '_seo_products_per_page', true );
+$products_per_page = $products_per_page ? $products_per_page : 12;
+
+if ( $show_products && ! empty( $linked_categories ) ) {
+    // Bepaal huidige pagina voor paginering
+    $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+    
+    // Query producten uit de gekoppelde categorieën
+    $args = array(
+        'post_type' => 'product',
+        'posts_per_page' => $products_per_page,
+        'paged' => $paged,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field' => 'term_id',
+                'terms' => $linked_categories,
+                'operator' => 'IN',
+            ),
+        ),
+    );
+    
+    $products_query = new WP_Query( $args );
+    
+    if ( $products_query->have_posts() ) {
+        if ( $products_title ) {
+            echo '<h2 class="wp-block-heading has-x-large-font-size" style="margin-top:60px;margin-bottom:30px;">' . esc_html( $products_title ) . '</h2>';
+        }
+        
+        echo '<ul class="products columns-4">';
+        
+        while ( $products_query->have_posts() ) {
+            $products_query->the_post();
+            wc_get_template_part( 'content', 'product' );
+        }
+        
+        echo '</ul>';
+        
+        // Paginering
+        if ( $products_query->max_num_pages > 1 ) {
+            echo '<nav class="woocommerce-pagination" style="margin-top:40px;">';
+            echo paginate_links( array(
+                'total' => $products_query->max_num_pages,
+                'current' => $paged,
+                'prev_text' => '&larr; Vorige',
+                'next_text' => 'Volgende &rarr;',
+                'type' => 'list',
+            ) );
+            echo '</nav>';
+        }
+        
+        wp_reset_postdata();
+    } else {
+        echo '<p style="margin-top:40px;color:#999;">' . __( 'Geen producten gevonden in de geselecteerde categorieën.', 'vet3d' ) . '</p>';
+    }
+}
+?>
+</div>
+<!-- /wp:group -->
+
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
