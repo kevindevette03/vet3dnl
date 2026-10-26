@@ -7,6 +7,8 @@
  */
 
 $video_dir = get_template_directory_uri() . '/assets/video/';
+// Themaversie als cache-buster, zodat een nieuwe video direct zichtbaar is
+$video_ver = '?ver=' . wp_get_theme()->get( 'Version' );
 
 // Zelfde teksten als de hero (instelbaar via de hero-instellingen)
 $pill = get_option( 'vet3d_hero_pill', '3D-printen op maat' );
@@ -20,7 +22,7 @@ $btn2_url = get_option( 'vet3d_hero_btn2_url', '/offerte/' );
 <!-- wp:html -->
 <section class="vet-scrollvideo">
 <div class="stick">
-<video muted playsinline preload="none" aria-hidden="true" poster="<?php echo esc_url( $video_dir . 'scroll-video-poster.jpg' ); ?>" data-src="<?php echo esc_url( $video_dir . 'scroll-video.mp4' ); ?>"></video>
+<video muted playsinline preload="none" aria-hidden="true" poster="<?php echo esc_url( $video_dir . 'scroll-video-poster.jpg' . $video_ver ); ?>" data-src="<?php echo esc_url( $video_dir . 'scroll-video.mp4' . $video_ver ); ?>"></video>
 <div class="vet-scrollvideo__content">
 <p class="vet-pill"><?php echo esc_html( $pill ); ?></p>
 <h1 class="wp-block-heading has-xx-large-font-size"><?php echo esc_html( $title ); ?></h1>
