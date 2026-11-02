@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.2.3
+Version: 2.3.1
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -47,9 +47,9 @@ footer .vet-foot{max-width:1180px;margin:0 auto;display:flex;justify-content:spa
   align-items:center;gap:20px;flex-wrap:wrap;padding:30px 28px;color:#9A9AA4;font-size:14px}
 
 /* ---- Mini-Cart in header (WooCommerce) ---- */
-.vet-cart .wc-block-mini-cart__button{color:#fff}
-.vet-cart .wc-block-mini-cart__button svg{fill:#fff}
-.vet-cart .wc-block-mini-cart__amount{color:#fff;font-weight:600}
+.vet-cart .wc-block-mini-cart__button{color:#1B1B22}
+.vet-cart .wc-block-mini-cart__button svg{fill:#1B1B22}
+.vet-cart .wc-block-mini-cart__amount{color:#1B1B22;font-weight:600}
 .vet-cart .wc-block-mini-cart__badge{background:#FF6B35;color:#fff}
 
 /* ---- Productpagina (WooCommerce) ---- */
@@ -844,21 +844,65 @@ header .wp-block-group > .wp-block-group > div:last-child{
 .vet-scrollvideo{position:relative;height:300vh;background:#1B1B22}
 .vet-scrollvideo .stick{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .vet-scrollvideo video{display:block;width:100%;height:100%;object-fit:cover}
-.vet-scrollvideo .stick::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(27,27,34,.72) 0%,rgba(27,27,34,.35) 55%,rgba(27,27,34,0) 100%);
-  opacity:calc(1 - var(--p,0) * 4)}
-.vet-scrollvideo__content{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
-  max-width:1180px;margin:0 auto;padding:0 28px;color:#fff;
-  opacity:calc(1 - var(--p,0) * 4);transform:translateY(calc(var(--p,0) * -120px))}
-.vet-scrollvideo__content > *{max-width:640px}
-.vet-scrollvideo__content h1{color:#fff;margin:12px 0}
-.vet-scrollvideo__sub{font-size:18px;color:#EDEDF2;margin:0 0 24px}
-.vet-scrollvideo__content .wp-block-buttons{display:flex;flex-wrap:wrap;gap:12px}
-.vet-scrollvideo__content .is-style-outline .wp-block-button__link{background:transparent;border:2px solid #fff}
-@media (max-width:781px){
-  .vet-scrollvideo .stick::after{background:rgba(27,27,34,.55)}
-  .vet-scrollvideo__sub{font-size:16px}
-}
 .vet-scrollvideo.is-static{height:auto}
 .vet-scrollvideo.is-static .stick{position:static;height:auto}
-.vet-scrollvideo.is-static video{height:auto;min-height:80vh}
+.vet-scrollvideo.is-static video{height:auto}
+
+/* Header: wit met CTA-knop */
+.vet-header{border-bottom:1px solid #ECE5DB}
+@media (min-width:782px){.vet-header .vet-cart{margin-left:auto}}
+.vet-header__cta{display:inline-block;background:#1B1B22;color:#fff;font-size:15px;font-weight:700;text-decoration:none;
+  padding:11px 22px;border-radius:999px;white-space:nowrap;transition:background .12s ease}
+.vet-header__cta:hover{background:#D44A1A;color:#fff}
+@media (max-width:781px){.vet-header__cta{display:none}}
+
+/* Hero: schuin houtskool vlak met printlagen en geometrische vormen */
+.vet-hero{position:relative;overflow:hidden;background:#fff;color:#fff}
+.vet-hero::before{content:"";position:absolute;inset:0;background:#1B1B22;clip-path:polygon(0 0,76% 0,66% 100%,0 100%)}
+.vet-hero__shapes{position:absolute;top:0;right:0;width:50%;height:100%}
+.vet-hero__inner{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:48px;align-items:center;
+  max-width:1180px;margin:0 auto;padding:72px 28px}
+.vet-hero__text{max-width:600px}
+.vet-hero__eyebrow{margin:0 0 14px;color:#FF8C42;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.vet-hero__title{margin:0 0 20px;color:#fff;font-size:clamp(40px,5.6vw,68px);font-weight:900;line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+.vet-hero__title span{color:#FF6B35}
+.vet-hero__sub{margin:0 0 28px;color:#EDEDF2;font-size:18px;line-height:1.6}
+.vet-hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.vet-hero__btn{display:inline-block;padding:14px 26px;border:2px solid transparent;border-radius:999px;font-size:16px;font-weight:700;
+  text-decoration:none;transition:transform .12s ease,background .12s ease,color .12s ease}
+.vet-hero__btn:hover{transform:translateY(-2px)}
+.vet-hero__btn.is-primary{background:#FF6B35;color:#1B1B22}
+.vet-hero__btn.is-primary:hover{background:#FF8C42;color:#1B1B22}
+.vet-hero__btn.is-outline{border-color:rgba(255,255,255,.55);color:#fff}
+.vet-hero__btn.is-outline:hover{background:#fff;color:#1B1B22}
+.vet-hero__usps{display:grid;grid-template-columns:repeat(2,max-content);gap:10px 28px;margin:0;padding:0;list-style:none;font-size:15px;font-weight:600}
+.vet-hero__usps li{display:flex;align-items:center;gap:10px}
+.vet-hero__usps li::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:#FF6B35}
+.vet-hero__usps li:nth-child(4n+2)::before{background:#1FBFC4}
+.vet-hero__usps li:nth-child(4n+3)::before{background:#FF8C42}
+.vet-hero__usps li:nth-child(4n+4)::before{background:#FDE3D6}
+.vet-hero__device{padding:12px;background:#fff;border-radius:36px;box-shadow:0 24px 60px rgba(27,27,34,.3)}
+.vet-hero__screen{padding:30px 22px 26px;background:#26262F;border-radius:26px;text-align:center}
+.vet-hero__status{margin:0 0 4px;color:#C9C9D2;font-size:13px}
+.vet-hero__job{margin:0 0 16px;color:#fff;font-size:24px;font-weight:800}
+.vet-printer{display:block;width:100%;height:auto}
+.vet-printer__reveal{animation:vet-print-reveal 16s steps(16,end) infinite}
+.vet-printer__head{animation:vet-print-head 16s steps(16,end) infinite}
+.vet-printer__nozzle{animation:vet-print-nozzle .8s ease-in-out infinite alternate}
+.vet-hero__progress{height:6px;margin-top:18px;overflow:hidden;background:#3A3A45;border-radius:3px}
+.vet-hero__progress span{display:block;height:100%;background:#FF6B35;border-radius:3px;transform-origin:left;animation:vet-print-progress 16s steps(16,end) infinite}
+@keyframes vet-print-reveal{0%{transform:translateY(128px)}85%,100%{transform:translateY(0)}}
+@keyframes vet-print-head{0%{transform:translateY(0)}85%,100%{transform:translateY(-128px)}}
+@keyframes vet-print-nozzle{from{transform:translateX(-42px)}to{transform:translateX(42px)}}
+@keyframes vet-print-progress{0%{transform:scaleX(0)}85%,100%{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){
+  .vet-printer__reveal,.vet-printer__nozzle,.vet-hero__progress span{animation:none}
+  .vet-printer__head{animation:none;transform:translateY(-128px)}
+}
+@media (max-width:900px){
+  .vet-hero::before{clip-path:none}
+  .vet-hero__shapes{display:none}
+  .vet-hero__inner{grid-template-columns:minmax(0,1fr);padding:48px 20px 56px}
+  .vet-hero__device{width:min(100%,300px);margin:0 auto}
+}
+@media (max-width:480px){.vet-hero__usps{grid-template-columns:minmax(0,1fr)}}

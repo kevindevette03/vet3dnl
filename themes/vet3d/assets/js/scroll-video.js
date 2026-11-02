@@ -28,8 +28,6 @@
         .then((blob) => { video.src = URL.createObjectURL(blob); })
         .catch(() => { video.src = src; });
 
-    update();
-
     // iOS Safari toont pas frames na een eerste play()
     video.addEventListener('loadedmetadata', () => {
         const p = video.play();
@@ -45,11 +43,8 @@
     }
 
     function update() {
-        const p = progress();
-        // Hero-tekst vervaagt in het eerste kwart van de scroll (zie style.css)
-        section.style.setProperty('--p', p.toFixed(3));
         if (!video.duration) return;
-        target = p * (video.duration - 0.05);
+        target = progress() * (video.duration - 0.05);
     }
 
     function tick() {

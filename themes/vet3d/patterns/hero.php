@@ -13,54 +13,70 @@ $btn1_text = get_option( 'vet3d_hero_btn1_text', 'Bekijk het lookbook' );
 $btn1_url = get_option( 'vet3d_hero_btn1_url', '#lookbook' );
 $btn2_text = get_option( 'vet3d_hero_btn2_text', 'Vraag jouw print aan' );
 $btn2_url = get_option( 'vet3d_hero_btn2_url', '/offerte/' );
+$usps = get_option( 'vet3d_usps', array( 'Snelle levering', 'Volledig op maat', 'Upload je ontwerp', 'Veilig betalen' ) );
+
+// Het deel van de titel na de eerste komma krijgt de accentkleur
+$title_parts = explode( ', ', $title, 2 );
+
+// Breedte per printlaag (van onder naar boven): samen de vorm van een vaas
+$layers = array( 92, 96, 92, 84, 74, 64, 56, 50, 48, 50, 56, 64, 72, 76, 72, 64 );
 ?>
-<!-- wp:group {"backgroundColor":"paper","style":{"spacing":{"padding":{"top":"54px","bottom":"54px","left":"28px","right":"28px"}}},"layout":{"type":"constrained","contentSize":"1180px"}} -->
-<div class="wp-block-group has-paper-background-color has-background" style="padding-top:54px;padding-right:28px;padding-bottom:54px;padding-left:28px">
-<!-- wp:columns {"verticalAlignment":"center"} -->
-<div class="wp-block-columns are-vertically-aligned-center">
-<!-- wp:column {"verticalAlignment":"center","width":"58%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:58%">
-<!-- wp:paragraph {"className":"vet-pill"} -->
-<p class="vet-pill"><?php echo esc_html( $pill ); ?></p>
-<!-- /wp:paragraph -->
-<!-- wp:heading {"level":1,"fontSize":"xx-large"} -->
-<h1 class="wp-block-heading has-xx-large-font-size"><?php echo esc_html( $title ); ?></h1>
-<!-- /wp:heading -->
-<!-- wp:paragraph {"textColor":"muted","style":{"typography":{"fontSize":"16px"}}} -->
-<p class="has-muted-color has-text-color" style="font-size:16px"><?php echo esc_html( $subtitle ); ?></p>
-<!-- /wp:paragraph -->
-<!-- wp:buttons -->
-<div class="wp-block-buttons">
-<!-- wp:button {"backgroundColor":"primary","textColor":"base"} -->
-<div class="wp-block-button"><a class="wp-block-button__link has-base-color has-primary-background-color has-text-color has-background wp-element-button" href="<?php echo esc_url( $btn1_url ); ?>"><?php echo esc_html( $btn1_text ); ?></a></div>
-<!-- /wp:button -->
-<!-- wp:button {"textColor":"contrast","className":"is-style-outline","style":{"border":{"width":"2px"}}} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link has-contrast-color has-text-color wp-element-button" style="border-width:2px" href="<?php echo esc_url( $btn2_url ); ?>"><?php echo esc_html( $btn2_text ); ?></a></div>
-<!-- /wp:button -->
-</div>
-<!-- /wp:buttons -->
-</div>
-<!-- /wp:column -->
-<!-- wp:column {"verticalAlignment":"center","width":"42%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:42%">
 <!-- wp:html -->
-<div style="display:flex;justify-content:center"><svg width="220" height="234" viewBox="0 0 180 190" role="img" aria-label="3D-print" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="90" cy="170" rx="68" ry="14" fill="#E7DDCE"/>
-<path d="M90 14 L156 52 L90 90 L24 52 Z" fill="#FF8C42"/>
-<path d="M24 52 L90 90 L90 158 L24 120 Z" fill="#FF6B35"/>
-<path d="M156 52 L90 90 L90 158 L156 120 Z" fill="#D44A1A"/>
-<path d="M24 66 L90 104" stroke="#FFB07A" stroke-width="2" fill="none"/>
-<path d="M24 80 L90 118" stroke="#FFB07A" stroke-width="2" fill="none"/>
-<path d="M24 94 L90 132" stroke="#FFB07A" stroke-width="2" fill="none"/>
-<path d="M24 108 L90 146" stroke="#FFB07A" stroke-width="2" fill="none"/>
-<path d="M156 66 L90 104" stroke="#B23E14" stroke-width="2" fill="none"/>
-<path d="M156 80 L90 118" stroke="#B23E14" stroke-width="2" fill="none"/>
-<path d="M156 94 L90 132" stroke="#B23E14" stroke-width="2" fill="none"/>
-</svg></div>
+<section class="vet-hero">
+<svg class="vet-hero__shapes" viewBox="0 0 640 760" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+<rect x="330" y="30" width="110" height="52" fill="#1FBFC4"/>
+<circle cx="520" cy="62" r="24" fill="#FF6B35"/>
+<rect x="560" y="120" width="80" height="150" fill="#FF8C42"/>
+<rect x="420" y="190" width="90" height="46" fill="#1B1B22"/>
+<circle cx="600" cy="320" r="26" fill="#1FBFC4"/>
+<rect x="470" y="300" width="58" height="120" fill="#FDE3D6"/>
+<path d="M560 420h80v80a80 80 0 0 1-80-80z" fill="#D44A1A"/>
+<rect x="450" y="520" width="70" height="44" fill="#FF6B35"/>
+<circle cx="600" cy="570" r="30" fill="#1B1B22"/>
+<rect x="540" y="630" width="100" height="56" fill="#1FBFC4"/>
+<rect x="300" y="640" width="150" height="50" fill="#FF8C42"/>
+<circle cx="490" cy="664" r="24" fill="#FDE3D6"/>
+<rect x="250" y="710" width="90" height="50" fill="#1B1B22"/>
+</svg>
+<div class="vet-hero__inner">
+<div class="vet-hero__text">
+<p class="vet-hero__eyebrow"><?php echo esc_html( $pill ); ?></p>
+<h1 class="vet-hero__title"><?php echo esc_html( $title_parts[0] ); ?><?php if ( isset( $title_parts[1] ) ) : ?>, <span><?php echo esc_html( $title_parts[1] ); ?></span><?php endif; ?></h1>
+<p class="vet-hero__sub"><?php echo esc_html( $subtitle ); ?></p>
+<div class="vet-hero__btns">
+<a class="vet-hero__btn is-primary" href="<?php echo esc_url( $btn2_url ); ?>"><?php echo esc_html( $btn2_text ); ?></a>
+<a class="vet-hero__btn is-outline" href="<?php echo esc_url( $btn1_url ); ?>"><?php echo esc_html( $btn1_text ); ?></a>
+</div>
+<ul class="vet-hero__usps">
+<?php foreach ( $usps as $usp ) : ?>
+<li><?php echo esc_html( $usp ); ?></li>
+<?php endforeach; ?>
+</ul>
+</div>
+<div class="vet-hero__device" aria-hidden="true">
+<div class="vet-hero__screen">
+<p class="vet-hero__status">Op het printbed</p>
+<p class="vet-hero__job">Jouw ontwerp</p>
+<svg class="vet-printer" viewBox="0 0 240 230">
+<defs><clipPath id="vet-print-clip"><rect class="vet-printer__reveal" x="0" y="58" width="240" height="128"/></clipPath></defs>
+<path d="M22 204V14h196v190" fill="none" stroke="#3A3A45" stroke-width="6" stroke-linejoin="round"/>
+<g clip-path="url(#vet-print-clip)">
+<?php foreach ( $layers as $i => $w ) : ?>
+<rect x="<?php echo esc_attr( 120 - $w / 2 ); ?>" y="<?php echo esc_attr( 178 - 8 * $i ); ?>" width="<?php echo esc_attr( $w ); ?>" height="7" rx="3" fill="<?php echo $i % 2 ? '#FF8C42' : '#FF6B35'; ?>"/>
+<?php endforeach; ?>
+</g>
+<rect x="30" y="186" width="180" height="10" rx="3" fill="#1FBFC4"/>
+<g class="vet-printer__head">
+<rect x="22" y="160" width="196" height="5" fill="#5F5A6A"/>
+<g class="vet-printer__nozzle">
+<rect x="106" y="150" width="28" height="22" rx="4" fill="#F4EFE8"/>
+<path d="M114 172h12l-6 7z" fill="#FF6B35"/>
+</g>
+</g>
+</svg>
+<div class="vet-hero__progress"><span></span></div>
+</div>
+</div>
+</div>
+</section>
 <!-- /wp:html -->
-</div>
-<!-- /wp:column -->
-</div>
-<!-- /wp:columns -->
-</div>
-<!-- /wp:group -->
