@@ -44,7 +44,7 @@ add_action( 'wp_enqueue_scripts', function () {
     }
     
     // Lookbook 3D Viewer op homepage en lookbook pagina
-    if ( is_front_page() || is_page_template( 'page-lookbook.html' ) ) {
+    if ( is_front_page() || is_page( 'lookbook' ) ) {
         wp_enqueue_script( 'vet3d-lookbook-viewer', get_template_directory_uri() . '/assets/js/lookbook-viewer.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
 
@@ -60,7 +60,7 @@ add_filter( 'script_loader_tag', function( $tag, $handle ) {
 
 // Voeg import map toe voor Three.js modules
 add_action( 'wp_head', function() {
-    if ( is_front_page() || is_page_template( 'page-lookbook.html' ) || is_archive() || ( vet3d_wc_active() && is_shop() ) ) {
+    if ( is_front_page() || is_page( 'lookbook' ) || is_archive() || ( vet3d_wc_active() && is_shop() ) ) {
         ?>
         <script type="importmap">
         {
@@ -216,38 +216,36 @@ add_action( 'init', function () {
     ) );
 } );
 
-// Meta veld voor lookbook tile size en STL file
+// Meta velden voor het printlogboek: verhaal, materiaal, printtijd en STL file
 add_action( 'add_meta_boxes', function () {
     add_meta_box(
         'lookbook_settings',
         __( 'Lookbook Instellingen', 'vet3d' ),
         function ( $post ) {
             wp_nonce_field( 'lookbook_meta', 'lookbook_meta_nonce' );
-            $size = get_post_meta( $post->ID, '_lookbook_size', true );
-            $dark_text = get_post_meta( $post->ID, '_lookbook_dark_text', true );
+            $story = get_post_meta( $post->ID, '_lookbook_story', true );
+            $material = get_post_meta( $post->ID, '_lookbook_material', true );
+            $print_time = get_post_meta( $post->ID, '_lookbook_time', true );
             $stl_file = get_post_meta( $post->ID, '_lookbook_stl_file', true );
             ?>
             <p>
-                <label><?php _e( 'Tegel formaat:', 'vet3d' ); ?></label><br>
-                <select name="lookbook_size" style="width:100%">
-                    <option value=""><?php _e( 'Normaal', 'vet3d' ); ?></option>
-                    <option value="tile-big" <?php selected( $size, 'tile-big' ); ?>><?php _e( 'Groot', 'vet3d' ); ?></option>
-                    <option value="tile-tall" <?php selected( $size, 'tile-tall' ); ?>><?php _e( 'Hoog', 'vet3d' ); ?></option>
-                    <option value="tile-wide" <?php selected( $size, 'tile-wide' ); ?>><?php _e( 'Breed', 'vet3d' ); ?></option>
-                </select>
+                <label for="lookbook_story"><?php _e( 'Verhaal:', 'vet3d' ); ?></label><br>
+                <textarea id="lookbook_story" name="lookbook_story" rows="4" style="width:100%" placeholder="<?php esc_attr_e( 'Wat is het, voor wie of waarom?', 'vet3d' ); ?>"><?php echo esc_textarea( $story ); ?></textarea>
             </p>
             <p>
-                <label>
-                    <input type="checkbox" name="lookbook_dark_text" value="1" <?php checked( $dark_text, '1' ); ?>>
-                    <?php _e( 'Gebruik donkere tekst', 'vet3d' ); ?>
-                </label>
+                <label for="lookbook_material"><?php _e( 'Materiaal:', 'vet3d' ); ?></label><br>
+                <input type="text" id="lookbook_material" name="lookbook_material" value="<?php echo esc_attr( $material ); ?>" style="width:100%">
+            </p>
+            <p>
+                <label for="lookbook_time"><?php _e( 'Printtijd:', 'vet3d' ); ?></label><br>
+                <input type="text" id="lookbook_time" name="lookbook_time" value="<?php echo esc_attr( $print_time ); ?>" style="width:100%">
             </p>
             <p>
                 <label><?php _e( '3D Model (STL):', 'vet3d' ); ?></label><br>
                 <input type="text" id="lookbook_stl_file" name="lookbook_stl_file" value="<?php echo esc_attr( $stl_file ); ?>" style="width: 100%;" placeholder="<?php _e( 'STL, 3MF of OBJ bestand URL', 'vet3d' ); ?>" />
                 <button type="button" class="button upload_lookbook_stl_button" style="margin-top: 5px;"><?php _e( 'Upload 3D Model', 'vet3d' ); ?></button>
                 <span class="description" style="display: block; margin-top: 5px;">
-                    <?php _e( 'Upload een 3D bestand (STL, 3MF of OBJ) om 3D preview te tonen bij hover.', 'vet3d' ); ?>
+                    <?php _e( 'Upload een 3D bestand (STL, 3MF of OBJ) om een knop "Bekijk in 3D" te tonen.', 'vet3d' ); ?>
                 </span>
             </p>
             <script>
@@ -296,13 +294,14 @@ add_action( 'save_post_lookbook', function ( $post_id ) {
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
-    if ( isset( $_POST['lookbook_size'] ) ) {
-        update_post_meta( $post_id, '_lookbook_size', sanitize_text_field( $_POST['lookbook_size'] ) );
+    if ( isset( $_POST['lookbook_story'] ) ) {
+        update_post_meta( $post_id, '_lookbook_story', sanitize_textarea_field( $_POST['lookbook_story'] ) );
     }
-    if ( isset( $_POST['lookbook_dark_text'] ) ) {
-        update_post_meta( $post_id, '_lookbook_dark_text', '1' );
-    } else {
-        delete_post_meta( $post_id, '_lookbook_dark_text' );
+    if ( isset( $_POST['lookbook_material'] ) ) {
+        update_post_meta( $post_id, '_lookbook_material', sanitize_text_field( $_POST['lookbook_material'] ) );
+    }
+    if ( isset( $_POST['lookbook_time'] ) ) {
+        update_post_meta( $post_id, '_lookbook_time', sanitize_text_field( $_POST['lookbook_time'] ) );
     }
     if ( isset( $_POST['lookbook_stl_file'] ) ) {
         update_post_meta( $post_id, '_lookbook_stl_file', esc_url_raw( $_POST['lookbook_stl_file'] ) );

@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.5.0
+Version: 2.6.2
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -588,76 +588,6 @@ header .wp-block-group > .wp-block-group > div:last-child{
   margin-left:auto;
 }
 
-/* ====== v2.0: Lookbook — editorial fotografie-mozaïek ====== */
-.vet-lookbook{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  grid-auto-rows:210px;
-  grid-auto-flow:dense;
-  gap:16px;
-  margin-top:30px;
-}
-.vet-lookbook .vet-tile{
-  min-height:0 !important;
-  height:100%;
-  margin:0 !important;
-  border-radius:18px;
-  overflow:hidden;
-  display:flex;
-  align-items:flex-end;
-  position:relative;
-  transition:transform .18s ease,box-shadow .18s ease;
-}
-.vet-lookbook > .wp-block-cover.vet-tile:hover{
-  transform:translateY(-4px) scale(1.006);
-  box-shadow:0 18px 40px rgba(27,27,34,.16);
-}
-/* Tegelgroottes */
-.vet-lookbook .tile-big{grid-column:span 2;grid-row:span 2}
-.vet-lookbook .tile-wide{grid-column:span 2}
-.vet-lookbook .tile-tall{grid-row:span 2}
-
-/* Labels op de beeldtegels */
-.vet-lookbook .vet-tile .wp-block-cover__inner-container{width:100%;padding:0}
-.vet-lookbook .vet-tile-label{
-  margin:0;
-  padding:16px 18px;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  text-shadow:0 1px 8px rgba(0,0,0,.28);
-}
-.vet-lookbook .tile-dark-text .vet-tile-label{color:#5A2410 !important;text-shadow:none}
-/* Subtiele donkere voet zodat labels leesbaar blijven, ook op echte foto's */
-.vet-lookbook > .wp-block-cover.vet-tile::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:46%;
-  background:linear-gradient(to top,rgba(0,0,0,.32),rgba(0,0,0,0));
-  pointer-events:none;
-}
-.vet-lookbook .tile-dark-text.wp-block-cover::after{display:none}
-
-/* CTA-tegels tussen het beeld */
-.vet-lookbook .vet-cta{
-  height:100%;border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
-  border-color:#F3D9C7;
-}
-.vet-lookbook .vet-cta h3{margin:0 0 4px;line-height:1.15}
-.vet-lookbook .vet-cta p{margin:0}
-.vet-lookbook .vet-cta .wp-block-buttons{margin-top:14px}
-
-@media(max-width:900px){
-  .vet-lookbook{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
-  .vet-lookbook .tile-big{grid-column:span 2;grid-row:span 2}
-  .vet-lookbook .tile-wide{grid-column:span 2}
-}
-@media(max-width:560px){
-  .vet-lookbook{grid-template-columns:1fr;grid-auto-rows:200px}
-  .vet-lookbook .tile-big,.vet-lookbook .tile-wide{grid-column:span 1}
-  .vet-lookbook .tile-big,.vet-lookbook .tile-tall{grid-row:span 1}
-  .vet-lookbook .vet-cta{grid-row:span 1}
-}
-
 /* Op-maat callout op de productpagina */
 .vet-callout{background:#FDF3EC;border:1px solid #F3D9C7;border-radius:14px}
 .vet-callout p{color:#1B1B22}
@@ -740,15 +670,6 @@ header .wp-block-group > .wp-block-group > div:last-child{
   font-size: 16px;
   z-index: 5;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-/* Lookbook tile met 3D */
-.vet-tile[data-stl-url] {
-  cursor: pointer;
-}
-.vet-tile[data-stl-url]:hover {
-  transform: scale(1.02);
-  transition: transform 0.3s ease;
 }
 
 /* SEO Pagina Products */
@@ -939,4 +860,42 @@ body.woocommerce-page .wp-site-blocks > main{padding-left:clamp(20px,3vw,28px);p
 .wp-block-buttons .is-style-outline .wp-block-button__link.has-base-color:focus-visible{color:#1B1B22 !important}
 @media (prefers-reduced-motion:reduce){
   .vet-hero__btn::before,.vet-header__cta::before,.wp-block-buttons .wp-block-button__link::before{transition:none}
+}
+
+/* Printlogboek (pattern vet3d/lookbook): compacte strook, foto's even hoog en onbesneden */
+.vet-log{--vet-h:380px;--vet-gutter:max(28px,calc((100% - 1184px) / 2));padding:56px 0;background:#F7F2EB;color:#1B1B22}
+.vet-log__mono{margin:0;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:#5F5A52}
+.vet-log__head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:24px;padding:0 var(--vet-gutter)}
+.vet-log__head h2{margin:6px 0 0;font-size:clamp(32px,4vw,52px);font-weight:900;line-height:1;letter-spacing:-.02em}
+.vet-log__nav{display:flex;gap:8px}
+.vet-log__nav[hidden]{display:none}
+.vet-log__arrow{width:44px;height:44px;padding:0;border:1px solid #1B1B22;background:none;color:#1B1B22;font-size:18px;line-height:1;cursor:pointer;transition:background .12s ease,color .12s ease}
+.vet-log__arrow:hover:not(:disabled){background:#1B1B22;color:#fff}
+.vet-log__arrow:disabled{opacity:.3;cursor:default}
+.vet-log__strip{display:flex;align-items:flex-start;gap:20px;overflow-x:auto;padding:0 var(--vet-gutter) 14px;scroll-padding:0 var(--vet-gutter);scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#C9C0B2 transparent}
+.vet-log__entry{flex:none;width:calc(var(--vet-h) * var(--vet-ratio));min-width:200px;scroll-snap-align:start}
+.vet-log__photo{position:relative;height:var(--vet-h);margin:0;overflow:hidden;background:#ECE5DB}
+.vet-log__photo img{display:block;width:100%;height:100%;object-fit:contain}
+.vet-log__info{padding-top:12px}
+.vet-log__info h3{margin:2px 0 6px;font-size:19px;font-weight:800;line-height:1.2}
+.vet-log__story{margin:0 0 8px;font-size:14px;line-height:1.45}
+.vet-log__specs{display:flex;flex-wrap:wrap;gap:2px 14px;margin:0 0 8px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:12px}
+.vet-log__specs div{display:flex;gap:6px}
+.vet-log__specs dt{color:#5F5A52}
+.vet-log__specs dd{margin:0}
+.vet-log__3d{padding:0 0 2px;border:0;border-bottom:2px solid #FF6B35;background:none;color:#1B1B22;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.vet-log__3d:hover{color:#B83D12}
+.vet-log .vet-3d-viewer{position:absolute;inset:0;z-index:2;background:#F4EFE8;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.vet-log .vet-3d-viewer.is-open{opacity:1;pointer-events:auto}
+.vet-log--anim .vet-log__photo img{clip-path:inset(100% 0 0 0);transition:clip-path 1.2s steps(20,end)}
+.vet-log--anim .vet-log__photo.is-printed img{clip-path:inset(0)}
+.vet-log__next{flex:none;display:flex;flex-direction:column;justify-content:space-between;width:300px;height:var(--vet-h);padding:20px;background:#FF6B35;scroll-snap-align:start;box-sizing:border-box}
+.vet-log__next .vet-log__mono{color:#1B1B22}
+.vet-log__next h3{margin:0 0 8px;font-size:44px;font-weight:900;line-height:1;letter-spacing:-.02em;color:#1B1B22}
+.vet-log__next p{margin:0 0 16px;font-size:15px;line-height:1.4}
+.vet-hero__btn.is-dark{--vet-fill:#fff;background:#1B1B22;color:#fff;font-size:15px;padding:12px 20px}
+.vet-hero__btn.is-dark:hover,.vet-hero__btn.is-dark:focus-visible{color:#1B1B22}
+@media (max-width:781px){
+  .vet-log{--vet-h:264px;--vet-gutter:20px;padding:40px 0}
+  .vet-log__next{width:260px}
 }

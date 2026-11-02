@@ -1,13 +1,7 @@
 /**
  * Vet3D - Lookbook 3D Viewer
- * Toont 3D modellen in lookbook tegels bij hover
+ * Print de foto's in beeld en toont 3D modellen na een klik op 'Bekijk in 3D'
  */
-
-import * as THREE from 'three';
-import { STLLoader } from 'three/addons/loaders/STLLoader.js';
-import { ThreeMFLoader } from 'three/addons/loaders/3MFLoader.js';
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 class LookbookViewer {
     constructor() {
@@ -27,42 +21,80 @@ class LookbookViewer {
     }
 
     setupViewers() {
-        const tiles3D = document.querySelectorAll('.vet-tile[data-stl-url]');
-        
-        tiles3D.forEach(tile => {
-            const modelUrl = tile.dataset.stlUrl;
-            if (!modelUrl) return;
-            
-            const viewerContainer = document.createElement('div');
-            viewerContainer.className = 'vet-3d-viewer';
-            viewerContainer.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity 0.4s ease;z-index:10;background:rgba(245,245,245,0.95);';
-            
-            tile.style.position = 'relative';
-            tile.appendChild(viewerContainer);
-            
-            // Setup 3D scene
-            this.createViewer(tile, viewerContainer, modelUrl);
-            
-            // Hover events
-            let hoverTimeout;
-            tile.addEventListener('mouseenter', () => {
-                hoverTimeout = setTimeout(() => {
-                    viewerContainer.style.opacity = '1';
-                    viewerContainer.style.pointerEvents = 'auto';
-                    this.startAnimation(tile);
-                }, 300);
-            });
-            
-            tile.addEventListener('mouseleave', () => {
-                clearTimeout(hoverTimeout);
-                viewerContainer.style.opacity = '0';
-                viewerContainer.style.pointerEvents = 'none';
-                this.stopAnimation(tile);
+        this.setupPrintReveal();
+        this.setupArrows();
+
+        document.querySelectorAll('.vet-log__entry').forEach(entry => {
+            const photo = entry.querySelector('.vet-log__photo[data-stl-url]');
+            const button = entry.querySelector('.vet-log__3d');
+            if (!photo || !button) return;
+
+            let container;
+            button.addEventListener('click', async () => {
+                const open = button.getAttribute('aria-pressed') !== 'true';
+                button.setAttribute('aria-pressed', String(open));
+                button.textContent = open ? 'Terug naar de foto' : 'Bekijk in 3D';
+
+                if (!container) {
+                    container = document.createElement('div');
+                    container.className = 'vet-3d-viewer';
+                    photo.appendChild(container);
+                    await this.createViewer(photo, container, photo.dataset.stlUrl);
+                }
+
+                container.classList.toggle('is-open', open);
+                if (open) {
+                    this.startAnimation(photo);
+                } else {
+                    this.stopAnimation(photo);
+                }
             });
         });
     }
 
-    createViewer(tile, container, modelUrl) {
+    // Pijlknoppen voor de strook; alleen zichtbaar als niet alles in beeld past
+    setupArrows() {
+        const strip = document.querySelector('.vet-log__strip');
+        const nav = document.querySelector('.vet-log__nav');
+        if (!strip || !nav) return;
+
+        const update = () => {
+            const max = strip.scrollWidth - strip.clientWidth;
+            nav.hidden = max <= 1;
+            nav.querySelector('[data-dir="-1"]').disabled = strip.scrollLeft <= 1;
+            nav.querySelector('[data-dir="1"]').disabled = strip.scrollLeft >= max - 1;
+        };
+
+        nav.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                strip.scrollBy({ left: Number(button.dataset.dir) * strip.clientWidth * 0.7, behavior: 'smooth' });
+            });
+        });
+        strip.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    }
+
+    // Foto's verschijnen laag voor laag zodra ze in beeld komen
+    setupPrintReveal() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const photos = document.querySelectorAll('.vet-log__photo');
+        if (!photos.length || !('IntersectionObserver' in window)) return;
+
+        document.querySelector('.vet-log').classList.add('vet-log--anim');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-printed');
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.15 });
+        photos.forEach(photo => observer.observe(photo));
+    }
+
+    async createViewer(tile, container, modelUrl) {
+        const THREE = await import('three');
+        const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
         const width = container.offsetWidth || 300;
         const height = container.offsetHeight || 300;
         
@@ -97,10 +129,13 @@ class LookbookViewer {
         let loader;
         
         if (ext === 'stl') {
+            const { STLLoader } = await import('three/addons/loaders/STLLoader.js');
             loader = new STLLoader();
         } else if (ext === '3mf') {
+            const { ThreeMFLoader } = await import('three/addons/loaders/3MFLoader.js');
             loader = new ThreeMFLoader();
         } else if (ext === 'obj') {
+            const { OBJLoader } = await import('three/addons/loaders/OBJLoader.js');
             loader = new OBJLoader();
         } else {
             console.error('Unsupported format:', ext);
@@ -164,6 +199,7 @@ class LookbookViewer {
             }
             
             tile._viewer = { scene, camera, renderer, controls, mesh, isAnimating: false };
+            if (container.classList.contains('is-open')) this.startAnimation(tile);
         }, undefined, (error) => {
             console.error('Error loading 3D model:', error);
         });
