@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.3.1
+Version: 2.3.3
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -47,9 +47,9 @@ footer .vet-foot{max-width:1180px;margin:0 auto;display:flex;justify-content:spa
   align-items:center;gap:20px;flex-wrap:wrap;padding:30px 28px;color:#9A9AA4;font-size:14px}
 
 /* ---- Mini-Cart in header (WooCommerce) ---- */
-.vet-cart .wc-block-mini-cart__button{color:#1B1B22}
-.vet-cart .wc-block-mini-cart__button svg{fill:#1B1B22}
-.vet-cart .wc-block-mini-cart__amount{color:#1B1B22;font-weight:600}
+.vet-cart .wc-block-mini-cart__button{color:#fff}
+.vet-cart .wc-block-mini-cart__button svg{fill:#fff}
+.vet-cart .wc-block-mini-cart__amount{color:#fff;font-weight:600}
 .vet-cart .wc-block-mini-cart__badge{background:#FF6B35;color:#fff}
 
 /* ---- Productpagina (WooCommerce) ---- */
@@ -848,13 +848,25 @@ header .wp-block-group > .wp-block-group > div:last-child{
 .vet-scrollvideo.is-static .stick{position:static;height:auto}
 .vet-scrollvideo.is-static video{height:auto}
 
-/* Header: wit met CTA-knop */
-.vet-header{border-bottom:1px solid #ECE5DB}
+/* Header: CTA-knop */
 @media (min-width:782px){.vet-header .vet-cart{margin-left:auto}}
-.vet-header__cta{display:inline-block;background:#1B1B22;color:#fff;font-size:15px;font-weight:700;text-decoration:none;
+.vet-header__cta{display:inline-block;background:#FF6B35;color:#1B1B22;font-size:15px;font-weight:700;text-decoration:none;
   padding:11px 22px;border-radius:999px;white-space:nowrap;transition:background .12s ease}
-.vet-header__cta:hover{background:#D44A1A;color:#fff}
+.vet-header__cta:hover{background:#FF8C42;color:#1B1B22}
 @media (max-width:781px){.vet-header__cta{display:none}}
+
+/* Mobiel menu: donker scherm, submenu leesbaar en niet tegen de rand */
+.vet-header .wp-block-navigation__responsive-container.is-menu-open{padding:24px 20px !important}
+.vet-header .is-menu-open .wp-block-navigation__submenu-container{background:transparent !important;border:0;box-shadow:none}
+.vet-header .is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content{color:#fff !important;padding:8px 0 8px 16px !important}
+.vet-header .is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover{background:transparent !important;color:#FF8C42 !important}
+
+/* Shop, winkelwagen en account: marge naast de inhoud, kaarten vullen op mobiel de breedte */
+body.woocommerce-page .wp-site-blocks > main{padding-left:clamp(20px,3vw,28px);padding-right:clamp(20px,3vw,28px)}
+@media (max-width:560px){
+  .woocommerce ul.products,.woocommerce .wp-block-post-template{justify-items:stretch !important}
+  .woocommerce li.product,.woocommerce .wp-block-post.product{width:100% !important}
+}
 
 /* Hero: schuin houtskool vlak met printlagen en geometrische vormen */
 .vet-hero{position:relative;overflow:hidden;background:#fff;color:#fff}

@@ -48,10 +48,6 @@ add_action( 'wp_enqueue_scripts', function () {
         wp_enqueue_script( 'vet3d-lookbook-viewer', get_template_directory_uri() . '/assets/js/lookbook-viewer.js', array(), wp_get_theme()->get( 'Version' ), true );
     }
 
-    // Scroll-gestuurde video op de homepage
-    if ( is_front_page() ) {
-        wp_enqueue_script( 'vet3d-scroll-video', get_template_directory_uri() . '/assets/js/scroll-video.js', array(), wp_get_theme()->get( 'Version' ), true );
-    }
 } );
 
 // Voeg type="module" toe aan 3D viewer scripts
