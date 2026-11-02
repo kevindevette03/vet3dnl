@@ -18,8 +18,8 @@ $usps = get_option( 'vet3d_usps', array( 'Snelle levering', 'Volledig op maat', 
 // Het deel van de titel na de eerste komma krijgt de accentkleur
 $title_parts = explode( ', ', $title, 2 );
 
-// Breedte per printlaag (van onder naar boven): samen de vorm van een vaas
-$layers = array( 92, 96, 92, 84, 74, 64, 56, 50, 48, 50, 56, 64, 72, 76, 72, 64 );
+// Het logo dat de printer laag voor laag opbouwt
+$logo = preg_replace( '#</?svg[^>]*>#', '', file_get_contents( get_template_directory() . '/assets/vet3d-logo-dark.svg' ) );
 ?>
 <!-- wp:html -->
 <section class="vet-hero">
@@ -56,21 +56,25 @@ $layers = array( 92, 96, 92, 84, 74, 64, 56, 50, 48, 50, 56, 64, 72, 76, 72, 64 
 <div class="vet-hero__device" aria-hidden="true">
 <div class="vet-hero__screen">
 <p class="vet-hero__status">Op het printbed</p>
-<p class="vet-hero__job">Jouw ontwerp</p>
-<svg class="vet-printer" viewBox="0 0 240 230">
-<defs><clipPath id="vet-print-clip"><rect class="vet-printer__reveal" x="0" y="58" width="240" height="128"/></clipPath></defs>
-<path d="M22 204V14h196v190" fill="none" stroke="#3A3A45" stroke-width="6" stroke-linejoin="round"/>
+<p class="vet-hero__job">Vette print</p>
+<svg class="vet-printer" viewBox="0 24 240 126">
+<defs>
+<clipPath id="vet-print-clip"><rect class="vet-printer__reveal" x="0" y="78" width="240" height="48"/></clipPath>
+<pattern id="vet-print-lines" width="240" height="3" patternUnits="userSpaceOnUse" y="78"><rect width="240" height=".7" fill="#26262F"/></pattern>
+</defs>
+<path d="M22 144V34h196v110" fill="none" stroke="#3A3A45" stroke-width="6" stroke-linejoin="round"/>
 <g clip-path="url(#vet-print-clip)">
-<?php foreach ( $layers as $i => $w ) : ?>
-<rect x="<?php echo esc_attr( 120 - $w / 2 ); ?>" y="<?php echo esc_attr( 178 - 8 * $i ); ?>" width="<?php echo esc_attr( $w ); ?>" height="7" rx="3" fill="<?php echo $i % 2 ? '#FF8C42' : '#FF6B35'; ?>"/>
-<?php endforeach; ?>
+<g transform="translate(24.5 73.28) scale(.17835)"><?php echo $logo; ?></g>
+<rect x="28" y="78" width="184" height="48" fill="url(#vet-print-lines)"/>
 </g>
-<rect x="30" y="186" width="180" height="10" rx="3" fill="#1FBFC4"/>
+<rect x="30" y="126" width="180" height="10" rx="3" fill="#1FBFC4"/>
+<g transform="translate(0 -53)">
 <g class="vet-printer__head">
 <rect x="22" y="160" width="196" height="5" fill="#5F5A6A"/>
 <g class="vet-printer__nozzle">
 <rect x="106" y="150" width="28" height="22" rx="4" fill="#F4EFE8"/>
 <path d="M114 172h12l-6 7z" fill="#FF6B35"/>
+</g>
 </g>
 </g>
 </svg>

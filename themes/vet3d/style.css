@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.3.3
+Version: 2.4.0
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -903,13 +903,13 @@ body.woocommerce-page .wp-site-blocks > main{padding-left:clamp(20px,3vw,28px);p
 .vet-printer__nozzle{animation:vet-print-nozzle .8s ease-in-out infinite alternate}
 .vet-hero__progress{height:6px;margin-top:18px;overflow:hidden;background:#3A3A45;border-radius:3px}
 .vet-hero__progress span{display:block;height:100%;background:#FF6B35;border-radius:3px;transform-origin:left;animation:vet-print-progress 16s steps(16,end) infinite}
-@keyframes vet-print-reveal{0%{transform:translateY(128px)}85%,100%{transform:translateY(0)}}
-@keyframes vet-print-head{0%{transform:translateY(0)}85%,100%{transform:translateY(-128px)}}
-@keyframes vet-print-nozzle{from{transform:translateX(-42px)}to{transform:translateX(42px)}}
+@keyframes vet-print-reveal{0%{transform:translateY(48px)}85%,100%{transform:translateY(0)}}
+@keyframes vet-print-head{0%{transform:translateY(0)}85%,100%{transform:translateY(-48px)}}
+@keyframes vet-print-nozzle{from{transform:translateX(-76px)}to{transform:translateX(76px)}}
 @keyframes vet-print-progress{0%{transform:scaleX(0)}85%,100%{transform:scaleX(1)}}
 @media (prefers-reduced-motion:reduce){
   .vet-printer__reveal,.vet-printer__nozzle,.vet-hero__progress span{animation:none}
-  .vet-printer__head{animation:none;transform:translateY(-128px)}
+  .vet-printer__head{animation:none;transform:translateY(-48px)}
 }
 @media (max-width:900px){
   .vet-hero::before{clip-path:none}
