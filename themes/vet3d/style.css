@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.4.0
+Version: 2.5.0
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -851,8 +851,7 @@ header .wp-block-group > .wp-block-group > div:last-child{
 /* Header: CTA-knop */
 @media (min-width:782px){.vet-header .vet-cart{margin-left:auto}}
 .vet-header__cta{display:inline-block;background:#FF6B35;color:#1B1B22;font-size:15px;font-weight:700;text-decoration:none;
-  padding:11px 22px;border-radius:999px;white-space:nowrap;transition:background .12s ease}
-.vet-header__cta:hover{background:#FF8C42;color:#1B1B22}
+  padding:11px 22px;border-radius:999px;white-space:nowrap;transition:transform .12s ease}
 @media (max-width:781px){.vet-header__cta{display:none}}
 
 /* Mobiel menu: donker scherm, submenu leesbaar en niet tegen de rand */
@@ -881,12 +880,11 @@ body.woocommerce-page .wp-site-blocks > main{padding-left:clamp(20px,3vw,28px);p
 .vet-hero__sub{margin:0 0 28px;color:#EDEDF2;font-size:18px;line-height:1.6}
 .vet-hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:28px}
 .vet-hero__btn{display:inline-block;padding:14px 26px;border:2px solid transparent;border-radius:999px;font-size:16px;font-weight:700;
-  text-decoration:none;transition:transform .12s ease,background .12s ease,color .12s ease}
+  text-decoration:none;transition:transform .12s ease,color .12s ease .1s}
 .vet-hero__btn:hover{transform:translateY(-2px)}
 .vet-hero__btn.is-primary{background:#FF6B35;color:#1B1B22}
-.vet-hero__btn.is-primary:hover{background:#FF8C42;color:#1B1B22}
 .vet-hero__btn.is-outline{border-color:rgba(255,255,255,.55);color:#fff}
-.vet-hero__btn.is-outline:hover{background:#fff;color:#1B1B22}
+.vet-hero__btn.is-outline:hover,.vet-hero__btn.is-outline:focus-visible{border-color:#fff;color:#1B1B22}
 .vet-hero__usps{display:grid;grid-template-columns:repeat(2,max-content);gap:10px 28px;margin:0;padding:0;list-style:none;font-size:15px;font-weight:600}
 .vet-hero__usps li{display:flex;align-items:center;gap:10px}
 .vet-hero__usps li::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:#FF6B35}
@@ -918,3 +916,27 @@ body.woocommerce-page .wp-site-blocks > main{padding-left:clamp(20px,3vw,28px);p
   .vet-hero__device{width:min(100%,300px);margin:0 auto}
 }
 @media (max-width:480px){.vet-hero__usps{grid-template-columns:minmax(0,1fr)}}
+
+/* Knoppen: bij hover wordt de kleur laag voor laag van onder naar boven 'geprint' */
+.vet-hero__btn,.vet-header__cta,.wp-block-buttons .wp-block-button__link{--vet-fill:#D44A1A;position:relative;overflow:hidden;isolation:isolate}
+.vet-hero__btn::before,.vet-header__cta::before,.wp-block-buttons .wp-block-button__link::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:repeating-linear-gradient(0deg,rgba(27,27,34,.12) 0 1px,transparent 1px 4px),var(--vet-fill);
+  transform:translateY(101%);transition:transform .36s steps(6,end)}
+.vet-hero__btn:hover::before,.vet-hero__btn:focus-visible::before,
+.vet-header__cta:hover::before,.vet-header__cta:focus-visible::before,
+.wp-block-buttons .wp-block-button__link:hover::before,.wp-block-buttons .wp-block-button__link:focus-visible::before{transform:translateY(0)}
+.vet-hero__btn.is-primary,.vet-header__cta{--vet-fill:#FF8C42}
+.vet-hero__btn.is-outline{--vet-fill:#fff}
+.wp-block-buttons .wp-block-button__link.has-contrast-background-color{--vet-fill:#FF6B35;transition:transform .12s ease,filter .12s ease,color .12s ease .1s}
+.wp-block-buttons .wp-block-button__link.has-contrast-background-color:hover,
+.wp-block-buttons .wp-block-button__link.has-contrast-background-color:focus-visible{color:#1B1B22 !important}
+.wp-block-buttons .is-style-outline .wp-block-button__link{transition:transform .12s ease,filter .12s ease,color .12s ease .1s}
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-contrast-color{--vet-fill:#1B1B22}
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-contrast-color:hover,
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-contrast-color:focus-visible{color:#fff !important}
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-base-color{--vet-fill:#fff}
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-base-color:hover,
+.wp-block-buttons .is-style-outline .wp-block-button__link.has-base-color:focus-visible{color:#1B1B22 !important}
+@media (prefers-reduced-motion:reduce){
+  .vet-hero__btn::before,.vet-header__cta::before,.wp-block-buttons .wp-block-button__link::before{transition:none}
+}
