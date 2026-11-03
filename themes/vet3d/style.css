@@ -4,7 +4,7 @@ Theme URI: https://vet3d.nl
 Author: Vet!3D
 Author URI: https://vet3d.nl
 Description: Block-thema voor de 3D-print webshop Vet!3D. Huisstijl met filament-oranje en houtskool, het Outfit-lettertype en WooCommerce-ondersteuning. Homepage opgebouwd uit bewerkbare patterns.
-Version: 2.6.2
+Version: 2.6.3
 Requires at least: 6.4
 Tested up to: 6.7
 Requires PHP: 7.4
@@ -80,7 +80,7 @@ footer .vet-foot{max-width:1180px;margin:0 auto;display:flex;justify-content:spa
 /* Formidable Forms styling voor offerte formulier */
 .vet-offerte .frm_forms{margin:0}
 .vet-offerte .frm_form_fields{display:flex;flex-direction:column;gap:16px}
-.vet-offerte .frm_form_field{margin:0 !important}
+.vet-offerte .frm_form_field{margin:0 0 16px !important}
 .vet-offerte .frm_primary_label{display:block;font-weight:600;font-size:14px;color:#1B1B22;margin-bottom:6px}
 .vet-offerte .frm_description{font-size:12px;color:#8A8378;margin-top:4px}
 .vet-offerte input[type=text],.vet-offerte input[type=email],.vet-offerte input[type=tel],
@@ -98,6 +98,22 @@ footer .vet-foot{max-width:1180px;margin:0 auto;display:flex;justify-content:spa
 .vet-offerte .frm_error_style,.vet-offerte .frm_message{border-radius:8px;padding:12px;margin-bottom:16px}
 .vet-offerte .frm_error_style{background:#FEE;border-color:#C33}
 .vet-offerte .frm_message{background:#E7F5E7;border-color:#5C5}
+
+/* ---- Offertepagina: korte tekst naast het formulier ---- */
+.vet-ask{margin-top:0;padding:64px 28px 80px;background:#F7F2EB}
+.vet-ask+*{margin-top:0}
+.vet-ask__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:56px;align-items:start;max-width:1180px;margin:0 auto}
+.vet-ask__intro>*{margin:0 0 16px}
+.vet-ask__intro p{font-size:17px;line-height:1.55;max-width:44ch}
+.vet-ask__intro .vet-ask__alt{margin-top:24px;font-size:14px;color:#6F695F}
+.vet-ask__alt a{color:inherit;font-weight:600}
+.vet-ask .vet-offerte{max-width:none;margin:0}
+.vet-ask .vet-offerte textarea{width:100% !important}
+@media(max-width:860px){
+  .vet-ask{padding:36px 16px 56px}
+  .vet-ask__grid{grid-template-columns:minmax(0,1fr);gap:24px}
+  .vet-ask .vet-offerte{padding:20px}
+}
 
 /* ---- Productcollectie op de homepage als kaarten (v1.3) ---- */
 #producten .wp-block-woocommerce-product-template{
