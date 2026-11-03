@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Vet!3D Print Calculator
  * Description: Prijscalculator voor 3D-prints op basis van printtijd (minuten) + gewicht (gram) + materiaal, met directe "In winkelwagen". Shortcode: [vet3d_calculator]
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Vet!3D
  * Requires Plugins: woocommerce
  * Text Domain: vet3d-calc
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class Vet3D_Print_Calculator {
 
 	/**
-	 * Tarieven — pas deze aan naar je eigen kosten.
+	 * Tarieven (excl. btw) — pas deze aan naar je eigen kosten.
 	 * Kan ook via de filter 'vet3d_calc_rates' worden overschreven.
 	 */
 	public static function rates() {
@@ -22,6 +22,8 @@ class Vet3D_Print_Calculator {
 			'per_minute' => 0.05,   // prijs per minuut printtijd
 			'per_gram'   => 0.08,   // prijs per gram materiaal
 			'min_price'  => 3.00,   // minimumprijs per stuk
+			'per_line'   => 0.30,   // transactiekosten, één keer per calculatorregel
+			'vat'        => 21,     // btw-percentage
 			'materials'  => array(  // materiaal => prijsfactor
 				'PLA'   => 1.00,
 				'PETG'  => 1.15,
@@ -51,15 +53,19 @@ class Vet3D_Print_Calculator {
 		return absint( apply_filters( 'vet3d_calc_product_id', 0 ) );
 	}
 
-	/** Autoritatieve prijsberekening (server-side). */
-	public static function compute( $minutes, $grams, $material ) {
+	/** Autoritatieve prijsberekening (server-side) voor een hele regel: array( 'excl', 'incl' ). */
+	public static function compute( $minutes, $grams, $material, $qty = 1 ) {
 		$r        = self::rates();
 		$minutes  = max( 0, floatval( $minutes ) );
 		$grams    = max( 0, floatval( $grams ) );
 		$mult     = isset( $r['materials'][ $material ] ) ? floatval( $r['materials'][ $material ] ) : 1.0;
 		$unit     = ( $r['setup'] + $minutes * $r['per_minute'] + $grams * $r['per_gram'] ) * $mult;
 		if ( $unit < $r['min_price'] ) { $unit = $r['min_price']; }
-		return round( $unit, 2 );
+		$excl = round( round( $unit, 2 ) * max( 1, intval( $qty ) ) + $r['per_line'], 2 );
+		return array(
+			'excl' => $excl,
+			'incl' => round( $excl * ( 1 + $r['vat'] / 100 ), 2 ),
+		);
 	}
 
 	public static function shortcode( $atts ) {
@@ -98,8 +104,10 @@ class Vet3D_Print_Calculator {
 				</label>
 			</div>
 			<div class="vet3d-price">
-				<span>Prijs</span>
-				<span><strong class="vet3d-total">&euro;0,00</strong> <span class="vet3d-each"></span></span>
+				<span>Prijs incl. <?php echo esc_html( $r['vat'] ); ?>% btw</span>
+				<span class="vet3d-amount"><strong class="vet3d-total">&euro;0,00</strong> <span class="vet3d-each"></span></span>
+				<span class="vet3d-excl-label">Excl. btw</span>
+				<span class="vet3d-excl">&euro;0,00</span>
 			</div>
 			<?php if ( $pid ) : ?>
 				<input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $pid ); ?>">
@@ -108,12 +116,13 @@ class Vet3D_Print_Calculator {
 				<button type="button" class="vet3d-add" disabled>Stel eerst een product in</button>
 				<p class="vet3d-note">Maak een (verborgen) WooCommerce-product aan met SKU <code>print-custom</code>, of gebruik <code>[vet3d_calculator product="123"]</code> met het product-ID.</p>
 			<?php endif; ?>
-			<p class="vet3d-note">Prijs = opstartkosten + printtijd + materiaal, inclusief materiaaltoeslag.</p>
+			<p class="vet3d-note">Opstartkosten, printtijd en materiaal zitten al in de prijs.</p>
 		</form>
 		<script>
 		(function(){
 			var R = <?php echo wp_json_encode( $r ); ?>;
-			function eur(n){ return '\u20ac' + (Math.round(n*100)/100).toFixed(2).replace('.', ','); }
+			function cents(n){ return Math.round(+(n*100).toFixed(6))/100; } // rondt .5 omhoog af, net als PHP
+			function eur(n){ return '\u20ac' + cents(n).toFixed(2).replace('.', ','); }
 			document.querySelectorAll('form.vet3d-calc').forEach(function(f){
 				if (f.dataset.vetInit) { return; } f.dataset.vetInit = '1';
 				var min = f.querySelector('[name=vet3d_minutes]'),
@@ -121,15 +130,18 @@ class Vet3D_Print_Calculator {
 				    mat = f.querySelector('[name=vet3d_material]'),
 				    qty = f.querySelector('[name=quantity]'),
 				    tot = f.querySelector('.vet3d-total'),
-				    each= f.querySelector('.vet3d-each');
+				    each= f.querySelector('.vet3d-each'),
+				    exc = f.querySelector('.vet3d-excl');
 				function calc(){
 					var m = parseFloat(min.value)||0, g = parseFloat(gr.value)||0,
 					    mu = R.materials[mat.value]||1, q = parseInt(qty.value)||1;
 					var unit = (R.setup + m*R.per_minute + g*R.per_gram) * mu;
 					if (unit < R.min_price) { unit = R.min_price; }
-					unit = Math.round(unit*100)/100;
-					tot.textContent = eur(unit*q);
-					each.textContent = q>1 ? '('+eur(unit)+' per stuk)' : '';
+					var excl = cents(cents(unit)*q + R.per_line),
+					    incl = cents(excl*(1 + R.vat/100));
+					tot.textContent = eur(incl);
+					exc.textContent = eur(excl);
+					each.textContent = q>1 ? '('+eur(incl/q)+' per stuk)' : '';
 				}
 				[min,gr,mat,qty].forEach(function(el){ if(el){ el.addEventListener('input', calc); el.addEventListener('change', calc); } });
 				calc();
@@ -153,9 +165,11 @@ class Vet3D_Print_Calculator {
 		.vet3d-calc label{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;color:#1B1B22}
 		.vet3d-calc input,.vet3d-calc select{font-family:inherit;font-size:15px;font-weight:400;padding:11px 13px;border:1.5px solid #E3DBCF;border-radius:10px;background:#FCFAF6;color:#1B1B22}
 		.vet3d-calc input:focus,.vet3d-calc select:focus{outline:none;border-color:#FF6B35}
-		.vet3d-price{display:flex;justify-content:space-between;align-items:baseline;background:#FDEEE4;border-radius:12px;padding:14px 16px;margin:8px 0 16px;font-weight:600;color:#1B1B22}
+		.vet3d-price{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:4px 12px;background:#FDEEE4;border-radius:12px;padding:14px 16px;margin:8px 0 16px;font-weight:600;color:#1B1B22}
 		.vet3d-price strong{font-size:24px;font-weight:800;color:#FF6B35}
+		.vet3d-price .vet3d-amount,.vet3d-price .vet3d-excl{text-align:right}
 		.vet3d-price .vet3d-each{font-size:13px;color:#8A8378;font-weight:500;margin-left:6px}
+		.vet3d-price .vet3d-excl-label,.vet3d-price .vet3d-excl{font-size:14px;color:#6F695F;font-weight:500}
 		.vet3d-add{width:100%;background:#FF6B35;color:#fff;border:none;border-radius:11px;padding:14px 26px;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;transition:filter .12s ease}
 		.vet3d-add:hover{filter:brightness(1.05)}
 		.vet3d-add:disabled{background:#E3DBCF;cursor:not-allowed}
@@ -182,12 +196,13 @@ class Vet3D_Print_Calculator {
 
 	public static function set_price( $cart ) {
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) { return; }
-		if ( did_action( 'woocommerce_before_calculate_totals' ) >= 2 ) { return; }
 		foreach ( $cart->get_cart() as $cart_item ) {
 			if ( ! empty( $cart_item['vet3d'] ) ) {
 				$d    = $cart_item['vet3d'];
-				$unit = self::compute( $d['minutes'], $d['grams'], $d['material'] );
-				$cart_item['data']->set_price( $unit );
+				// Winkelprijzen zijn incl. btw; de regelprijs hangt af van het aantal, dus niet afgerond per stuk
+				$qty  = max( 1, intval( $cart_item['quantity'] ) );
+				$line = self::compute( $d['minutes'], $d['grams'], $d['material'], $qty );
+				$cart_item['data']->set_price( $line['incl'] / $qty );
 			}
 		}
 	}
